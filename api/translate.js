@@ -5,13 +5,13 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { tweetUrl, lang } = req.body;
-  if (!lang) return res.status(400).json({ error: 'Missing lang' });
+  const { tweet, lang } = req.body;
+  if (!tweet || !lang) return res.status(400).json({ error: 'Missing params' });
 
   const langNames = {
-    en:'English', es:'Spanish', fr:'French', de:'German', pt:'Portuguese',
-    ko:'Korean', zh:'Chinese (Simplified)', ar:'Arabic', hi:'Hindi',
-    id:'Indonesian', th:'Thai', ru:'Russian'
+    en:'English', ja:'Japanese', es:'Spanish', fr:'French', de:'German',
+    pt:'Portuguese', ko:'Korean', zh:'Chinese (Simplified)', ar:'Arabic',
+    hi:'Hindi', id:'Indonesian', th:'Thai', ru:'Russian'
   };
   const langName = langNames[lang] || 'English';
 
@@ -28,14 +28,16 @@ export default async function handler(req, res) {
         max_tokens: 1000,
         messages: [{
           role: 'user',
-          content: `You are helping a site that curates funny and viral Japanese tweets for international audiences.
+          content: `You help a site that curates funny viral Japanese tweets for international audiences.
 
-The tweet URL is: ${tweetUrl}
+Japanese tweet: "${tweet}"
 
-Since you cannot access the URL directly, please provide a translation note in ${langName} explaining that the user should read the embedded tweet above, and add a general note about Japanese Twitter culture.
+Provide:
+1. A natural translation into ${langName} preserving the humor
+2. A short cultural context note (1-2 sentences) explaining why it's funny
 
-Actually, I need you to provide a placeholder translation. Please respond with:
-{"translation": "📖 See the tweet above — tap to expand and read the original Japanese content.", "context": "💡 This is a viral tweet from Japanese Twitter. Use the language selector above to get AI translations once the tweet loads."}`
+Reply ONLY with this JSON (no markdown):
+{"translation":"...","context":"💡 Context: ..."}`
         }]
       })
     });
