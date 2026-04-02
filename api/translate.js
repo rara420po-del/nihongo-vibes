@@ -25,27 +25,19 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
+        max_tokens: 500,
         messages: [{
           role: 'user',
-          content: `You help a site that curates funny viral Japanese tweets for international audiences.
+          content: `Translate this Japanese tweet naturally into ${langName}. Preserve the humor and tone. Reply ONLY with the translation text, nothing else — no explanations, no notes, no context.
 
-Japanese tweet: "${tweet}"
-
-Provide:
-1. A natural translation into ${langName} preserving the humor
-2. A short cultural context note (1-2 sentences) explaining why it's funny
-
-Reply ONLY with this JSON (no markdown):
-{"translation":"...","context":"💡 Context: ..."}`
+Japanese tweet: "${tweet}"`
         }]
       })
     });
 
     const data = await response.json();
-    const raw = data.content?.map(b => b.text || '').join('') || '{}';
-    const parsed = JSON.parse(raw.replace(/```json|```/g, '').trim());
-    res.status(200).json(parsed);
+    const translation = data.content?.map(b => b.text || '').join('').trim() || '—';
+    res.status(200).json({ translation });
   } catch(err) {
     console.error(err);
     res.status(500).json({ error: 'Translation failed' });
