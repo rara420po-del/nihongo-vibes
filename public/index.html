@@ -8,27 +8,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;700&family=DM+Sans:ital,wght@0,300;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <style>
-  :root { --red:#E8001C; --ink:#0D0D0D; --cream:#F5F0E8; --gold:#C8A84B; --muted:#8A8680; --card-bg:#FFFFFF; --border:#E0D9CF; }
+  :root{--red:#E8001C;--ink:#0D0D0D;--cream:#F5F0E8;--gold:#C8A84B;--muted:#8A8680;--card-bg:#FFFFFF;--border:#E0D9CF;}
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
   body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:0.4;}
-  header{position:sticky;top:0;z-index:100;background:var(--ink);border-bottom:3px solid var(--red);padding:0 clamp(16px,5vw,60px);display:flex;align-items:center;justify-content:space-between;height:64px;}
-  .logo{display:flex;align-items:baseline;gap:10px;}
-  .logo-main{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:#fff;line-height:1;}
-  .logo-jp{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--red);font-weight:700;letter-spacing:2px;}
-  .header-right{display:flex;align-items:center;gap:20px;}
+
+  header{position:sticky;top:0;z-index:100;background:var(--ink);border-bottom:3px solid var(--red);padding:0 clamp(12px,3vw,60px);display:flex;align-items:center;justify-content:space-between;height:56px;gap:8px;}
+  .logo{display:flex;align-items:baseline;gap:6px;min-width:0;flex-shrink:1;}
+  .logo-main{font-family:'Bebas Neue',sans-serif;font-size:clamp(16px,3.5vw,28px);letter-spacing:2px;color:#fff;line-height:1;white-space:nowrap;}
+  .logo-jp{font-family:'Noto Sans JP',sans-serif;font-size:clamp(8px,1.8vw,13px);color:var(--red);font-weight:700;letter-spacing:1px;white-space:nowrap;}
+  .header-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
   .date-badge{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
-  .lang-switcher{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:6px 12px;}
-  .lang-switcher select{background:transparent;border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;}
+  .lang-switcher{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:5px 8px;}
+  .lang-switcher select{background:transparent;border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;max-width:80px;}
   .lang-switcher select option{background:#1a1a1a;}
-  .lang-icon{font-size:16px;line-height:1;}
-  #translation-bar{background:linear-gradient(135deg,var(--gold) 0%,#b8943e 100%);padding:10px clamp(16px,5vw,60px);display:flex;align-items:center;gap:12px;}
+  .lang-icon{font-size:14px;line-height:1;}
+  @media(max-width:400px){.date-badge{display:none;}}
+
+  #translation-bar{background:linear-gradient(135deg,var(--gold) 0%,#b8943e 100%);padding:10px clamp(16px,5vw,60px);display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
   #translation-bar .bar-icon{font-size:18px;}
-  #translation-bar p{font-size:13px;font-weight:500;color:#3d2900;flex:1;}
+  #translation-bar p{font-size:13px;font-weight:500;color:#3d2900;flex:1;min-width:120px;}
   .translate-all-btn{background:rgba(0,0,0,0.15);border:none;border-radius:6px;padding:6px 14px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:#3d2900;cursor:pointer;transition:background 0.2s;white-space:nowrap;display:flex;align-items:center;gap:6px;}
   .translate-all-btn:hover{background:rgba(0,0,0,0.25);}
   .translate-all-btn:disabled{opacity:0.6;cursor:not-allowed;}
+
   .hero{padding:clamp(40px,8vw,80px) clamp(16px,5vw,60px) clamp(30px,5vw,50px);display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
   .hero::after{content:'🇯🇵';position:absolute;right:clamp(16px,5vw,60px);top:50%;transform:translateY(-50%);font-size:clamp(80px,15vw,160px);opacity:0.06;pointer-events:none;line-height:1;}
   .hero-eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--red);font-weight:500;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
@@ -40,6 +44,7 @@
   .stat{display:flex;flex-direction:column;gap:2px;}
   .stat-num{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--ink);line-height:1;}
   .stat-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+
   main{padding:clamp(24px,5vw,60px) clamp(16px,5vw,60px);position:relative;z-index:1;}
   .categories{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:2rem;}
   .cat-pill{padding:5px 14px;border-radius:20px;font-size:0.78rem;font-weight:500;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all 0.15s;font-family:'DM Sans',sans-serif;}
@@ -49,37 +54,28 @@
   .ad-slot{border:2px dashed var(--border);border-radius:12px;padding:32px;text-align:center;background:rgba(200,168,75,0.04);margin:28px 0;}
   .ad-slot .ad-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--border);margin-bottom:8px;}
   .ad-slot p{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
-  .tweets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:28px;}
 
-  /* Card — tweet on top, translation directly below */
+  .tweets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:28px;}
   .tweet-card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform 0.25s ease,box-shadow 0.25s ease;display:flex;flex-direction:column;animation:cardIn 0.5s ease both;}
   @keyframes cardIn{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
   .tweet-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.12);}
   .card-header{padding:14px 18px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
   .tag-pill{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:4px 10px;border-radius:20px;background:var(--cream);color:var(--muted);}
   .tag-pill.funny{background:#FFF3CD;color:#856404;}
-  .tag-pill.heartwarming{background:#FCE4EC;color:#880E4F;}
   .tag-pill.food{background:#E8F5E9;color:#1B5E20;}
-  .tag-pill.wild{background:#FBE9E7;color:#BF360C;}
   .tag-pill.animals{background:#E8F5E9;color:#2E7D32;}
-
-  /* Tweet embed */
   .tweet-embed-wrapper{padding:12px 12px 0;display:flex;align-items:flex-start;justify-content:center;}
   .tweet-embed-wrapper .twitter-tweet{margin:0 auto !important;}
-
-  /* Translation sits right below tweet, no gap */
   .card-translation{padding:12px 18px 16px;border-top:1px solid var(--border);background:#FAFAF8;margin-top:12px;}
-  .translation-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:5px;}
+  .translation-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:6px;}
   .translation-text{font-size:13px;line-height:1.6;color:#333;font-weight:300;}
   .context-text{font-size:12px;color:var(--muted);font-style:italic;margin-top:6px;line-height:1.5;}
-
   .skeleton-wrap{display:none;}
   .skeleton-wrap.visible{display:block;}
   .skeleton-line{height:12px;border-radius:4px;background:linear-gradient(90deg,#ede6d8 25%,#d4c9b8 50%,#ede6d8 75%);background-size:200% 100%;animation:shimmer 1.3s infinite;margin-bottom:6px;}
   .skeleton-line.short{width:60%;}
   @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
-
-  .translate-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:6px 13px;background:var(--ink);color:#fff;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;cursor:pointer;transition:background 0.2s,transform 0.1s;letter-spacing:0.5px;}
+  .translate-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:6px 13px;background:var(--ink);color:#fff;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;cursor:pointer;transition:background 0.2s,transform 0.1s;}
   .translate-btn:hover{background:var(--red);}
   .translate-btn:active{transform:scale(0.97);}
   .translate-btn:disabled{opacity:0.5;cursor:not-allowed;}
@@ -94,7 +90,7 @@
   .footer-links{display:flex;gap:20px;}
   .footer-links a{font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;}
   .footer-links a:hover{color:var(--red);}
-  @media(max-width:600px){.hero{grid-template-columns:1fr;}.hero::after{display:none;}.hero-stats{gap:16px;}.header-right .date-badge{display:none;}footer{flex-direction:column;align-items:flex-start;}}
+  @media(max-width:600px){.hero{grid-template-columns:1fr;}.hero::after{display:none;}.hero-stats{gap:16px;}footer{flex-direction:column;align-items:flex-start;}}
 </style>
 </head>
 <body>
@@ -111,6 +107,7 @@
       <select id="lang-select" onchange="onLangChange(this.value)">
         <option value="auto">Auto-detect</option>
         <option value="en">English</option>
+        <option value="ja">日本語</option>
         <option value="es">Español</option>
         <option value="fr">Français</option>
         <option value="de">Deutsch</option>
@@ -140,7 +137,7 @@
     <p class="hero-subtitle" id="hero-subtitle">Hand-picked viral tweets from Japanese Twitter — translated and explained for the world.</p>
     <div class="hero-stats">
       <div class="stat"><span class="stat-num">8</span><span class="stat-label" id="stat1">Today's Picks</span></div>
-      <div class="stat"><span class="stat-num">12</span><span class="stat-label" id="stat2">Languages</span></div>
+      <div class="stat"><span class="stat-num">13</span><span class="stat-label" id="stat2">Languages</span></div>
       <div class="stat"><span class="stat-num">∞</span><span class="stat-label" id="stat3">Good Vibes</span></div>
     </div>
   </div>
@@ -152,23 +149,17 @@
     <button class="cat-pill" onclick="filterCat(this,'funny')">😂 Funny</button>
     <button class="cat-pill" onclick="filterCat(this,'animals')">🐾 Animals</button>
     <button class="cat-pill" onclick="filterCat(this,'food')">🍜 Food</button>
-    <button class="cat-pill" onclick="filterCat(this,'wild')">🤯 Wild</button>
   </div>
 
   <div class="ad-slot"><p class="ad-label">Advertisement</p><p>[ Google AdSense / Sponsored Content Goes Here ]</p></div>
-
   <p class="section-label" id="section-label">Today's Selection &nbsp;·&nbsp; <span id="countLabel">8 tweets</span></p>
 
-  <div class="tweets-grid" id="tweetsGrid">
+  <div class="tweets-grid">
 
-    <!-- CARD 1 - Animals -->
+    <!-- 1: kore_inu2 - Animals - 可愛い -->
     <div class="tweet-card" data-cat="animals" style="animation-delay:0.05s">
       <div class="card-header"><span class="tag-pill animals">🐾 Animals</span></div>
-      <div class="tweet-embed-wrapper">
-        <blockquote class="twitter-tweet" data-dnt="true" data-theme="light">
-          <a href="https://twitter.com/kore_inu2/status/2039643969861374333"></a>
-        </blockquote>
-      </div>
+      <div class="tweet-embed-wrapper"><blockquote class="twitter-tweet" data-dnt="true" data-theme="light"><a href="https://twitter.com/kore_inu2/status/2039643969861374333"></a></blockquote></div>
       <div class="card-translation">
         <div class="translation-label">✦ AI Translation</div>
         <div class="skeleton-wrap" id="skel-1"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
@@ -178,14 +169,10 @@
       </div>
     </div>
 
-    <!-- CARD 2 - Animals -->
+    <!-- 2: inariraion - Animals - 脱糞 -->
     <div class="tweet-card" data-cat="animals" style="animation-delay:0.1s">
       <div class="card-header"><span class="tag-pill animals">🐾 Animals</span></div>
-      <div class="tweet-embed-wrapper">
-        <blockquote class="twitter-tweet" data-dnt="true" data-theme="light">
-          <a href="https://twitter.com/inariraion/status/2039532417443307860"></a>
-        </blockquote>
-      </div>
+      <div class="tweet-embed-wrapper"><blockquote class="twitter-tweet" data-dnt="true" data-theme="light"><a href="https://twitter.com/inariraion/status/2039532417443307860"></a></blockquote></div>
       <div class="card-translation">
         <div class="translation-label">✦ AI Translation</div>
         <div class="skeleton-wrap" id="skel-2"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
@@ -195,14 +182,10 @@
       </div>
     </div>
 
-    <!-- CARD 3 - Animals -->
+    <!-- 3: arinaariri - Animals - 初めての予防接種 -->
     <div class="tweet-card" data-cat="animals" style="animation-delay:0.15s">
       <div class="card-header"><span class="tag-pill animals">🐾 Animals</span></div>
-      <div class="tweet-embed-wrapper">
-        <blockquote class="twitter-tweet" data-dnt="true" data-theme="light">
-          <a href="https://twitter.com/arinaariri/status/2039490419403424008"></a>
-        </blockquote>
-      </div>
+      <div class="tweet-embed-wrapper"><blockquote class="twitter-tweet" data-dnt="true" data-theme="light"><a href="https://twitter.com/arinaariri/status/2039490419403424008"></a></blockquote></div>
       <div class="card-translation">
         <div class="translation-label">✦ AI Translation</div>
         <div class="skeleton-wrap" id="skel-3"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
@@ -212,14 +195,10 @@
       </div>
     </div>
 
-    <!-- CARD 4 - Funny -->
+    <!-- 4: akutagawa1122 - Funny - 黒人差別 -->
     <div class="tweet-card" data-cat="funny" style="animation-delay:0.2s">
       <div class="card-header"><span class="tag-pill funny">😂 Funny</span></div>
-      <div class="tweet-embed-wrapper">
-        <blockquote class="twitter-tweet" data-dnt="true" data-theme="light">
-          <a href="https://twitter.com/akutagawa1122/status/2039304111326380250"></a>
-        </blockquote>
-      </div>
+      <div class="tweet-embed-wrapper"><blockquote class="twitter-tweet" data-dnt="true" data-theme="light"><a href="https://twitter.com/akutagawa1122/status/2039304111326380250"></a></blockquote></div>
       <div class="card-translation">
         <div class="translation-label">✦ AI Translation</div>
         <div class="skeleton-wrap" id="skel-4"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
@@ -229,14 +208,10 @@
       </div>
     </div>
 
-    <!-- CARD 5 - Funny -->
+    <!-- 5: tw_subnenn - Funny - 職場 -->
     <div class="tweet-card" data-cat="funny" style="animation-delay:0.25s">
       <div class="card-header"><span class="tag-pill funny">😂 Funny</span></div>
-      <div class="tweet-embed-wrapper">
-        <blockquote class="twitter-tweet" data-dnt="true" data-theme="light">
-          <a href="https://twitter.com/tw_subnenn/status/2038986294987211108"></a>
-        </blockquote>
-      </div>
+      <div class="tweet-embed-wrapper"><blockquote class="twitter-tweet" data-dnt="true" data-theme="light"><a href="https://twitter.com/tw_subnenn/status/2038986294987211108"></a></blockquote></div>
       <div class="card-translation">
         <div class="translation-label">✦ AI Translation</div>
         <div class="skeleton-wrap" id="skel-5"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
@@ -246,14 +221,10 @@
       </div>
     </div>
 
-    <!-- CARD 6 - Funny -->
+    <!-- 6: hinekurebow - Funny - 金玉ドアストッパー -->
     <div class="tweet-card" data-cat="funny" style="animation-delay:0.3s">
       <div class="card-header"><span class="tag-pill funny">😂 Funny</span></div>
-      <div class="tweet-embed-wrapper">
-        <blockquote class="twitter-tweet" data-dnt="true" data-theme="light">
-          <a href="https://twitter.com/hinekurebow/status/2039543173857567189"></a>
-        </blockquote>
-      </div>
+      <div class="tweet-embed-wrapper"><blockquote class="twitter-tweet" data-dnt="true" data-theme="light"><a href="https://twitter.com/hinekurebow/status/2039543173857567189"></a></blockquote></div>
       <div class="card-translation">
         <div class="translation-label">✦ AI Translation</div>
         <div class="skeleton-wrap" id="skel-6"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
@@ -263,14 +234,10 @@
       </div>
     </div>
 
-    <!-- CARD 7 - Funny -->
+    <!-- 7: mom0rpheus - Funny - ナルト -->
     <div class="tweet-card" data-cat="funny" style="animation-delay:0.35s">
       <div class="card-header"><span class="tag-pill funny">😂 Funny</span></div>
-      <div class="tweet-embed-wrapper">
-        <blockquote class="twitter-tweet" data-dnt="true" data-theme="light">
-          <a href="https://twitter.com/mom0rpheus/status/2039547021053567233"></a>
-        </blockquote>
-      </div>
+      <div class="tweet-embed-wrapper"><blockquote class="twitter-tweet" data-dnt="true" data-theme="light"><a href="https://twitter.com/mom0rpheus/status/2039547021053567233"></a></blockquote></div>
       <div class="card-translation">
         <div class="translation-label">✦ AI Translation</div>
         <div class="skeleton-wrap" id="skel-7"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
@@ -280,14 +247,10 @@
       </div>
     </div>
 
-    <!-- CARD 8 - Food -->
+    <!-- 8: muni_gurume - Food - 東京餃子 -->
     <div class="tweet-card" data-cat="food" style="animation-delay:0.4s">
       <div class="card-header"><span class="tag-pill food">🍜 Food</span></div>
-      <div class="tweet-embed-wrapper">
-        <blockquote class="twitter-tweet" data-dnt="true" data-theme="light">
-          <a href="https://twitter.com/muni_gurume/status/2039589257971703821"></a>
-        </blockquote>
-      </div>
+      <div class="tweet-embed-wrapper"><blockquote class="twitter-tweet" data-dnt="true" data-theme="light"><a href="https://twitter.com/muni_gurume/status/2039589257971703821"></a></blockquote></div>
       <div class="card-translation">
         <div class="translation-label">✦ AI Translation</div>
         <div class="skeleton-wrap" id="skel-8"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
@@ -312,11 +275,11 @@ const TOTAL = 8;
 
 const tweetTexts = {
   1: '可愛い\n脱糞時道路の縁に沿って横スライドするの、結構キモいからやめて欲しい',
-  2: '初めての予防接種にとんでもない顔になってしまうワンコが撮影される',
-  3: '黒人差別も甚だしい。ティアの訂正をお願いします。',
-  4: '職場に対しては、「私を採用しちゃって、全くもう　おバカさん(笑)」と思っている',
-  5: '「金玉ドアストッパー」発売中！購入',
-  6: 'ナルト見始めたんだけど、サクラがうざすぎて4話で止まってます\nサクラはいつまでうざいのか教えてくれよ',
+  2: '脱糞時道路の縁に沿って横スライドするの、結構キモいからやめて欲しい',
+  3: '初めての予防接種にとんでもない顔になってしまうワンコが撮影される',
+  4: '黒人差別も甚だしい。ティアの訂正をお願いします。',
+  5: '職場に対しては、「私を採用しちゃって、全くもう　おバカさん(笑)」と思っている',
+  6: '「金玉ドアストッパー」発売中！購入',
   7: 'ナルト見始めたんだけど、サクラがうざすぎて4話で止まってます\nサクラはいつまでうざいのか教えてくれよ',
   8: '東京おすすめ餃子🥟\n・ファイト餃子(巣鴨)\n・餃子の肉太郎(神保町)\n・えびすの安兵衛(恵比寿)\n・金春(蒲田)'
 };
@@ -325,7 +288,7 @@ function getTargetLang() {
   const sel = document.getElementById('lang-select').value;
   if (sel !== 'auto') return sel;
   const nav = (navigator.language || 'en').toLowerCase().split('-')[0];
-  const supported = ['en','es','fr','de','zh','ko','pt','ar','hi','id','th','ru'];
+  const supported = ['en','ja','es','fr','de','pt','ko','zh','ar','hi','id','th','ru'];
   return supported.includes(nav) ? nav : 'en';
 }
 
@@ -335,7 +298,7 @@ async function translateCard(btn, id) {
   btn.innerHTML = '<span class="spinner"></span> Translating…';
   const skelEl = document.getElementById('skel-'+id);
   const transEl = document.getElementById('trans-'+id);
-  const ctxEl = document.getElementById('ctx-'+id);
+  const ctxEl  = document.getElementById('ctx-'+id);
   skelEl.classList.add('visible');
   transEl.innerHTML = '';
   ctxEl.innerHTML = '';
@@ -373,37 +336,37 @@ async function translateAll() {
   globalBtn.style.background = 'rgba(0,0,0,0.25)';
 }
 
-const uiTranslations = {
-  en: { heroTitle: "JAPAN'S<br><span>FUNNIEST</span><br>TWEETS —<br>FOR THE WORLD", subtitle: "Hand-picked viral tweets from Japanese Twitter — translated and explained for the world.", stat1: "Today's Picks", stat2: "Languages", stat3: "Good Vibes", barText: "AI-powered translations — understand every tweet in your language", translateAll: "Translate All Tweets", todaysSel: "Today's Selection" },
-  ja: { heroTitle: "日本の<br><span>バズった</span><br>ツイート —<br>世界へ", subtitle: "毎日厳選した日本のバズりツイートを世界に届けます。", stat1: "今日のピック", stat2: "言語", stat3: "良い雰囲気", barText: "AI翻訳機能 — あなたの言語でツイートを理解しよう", translateAll: "全部翻訳する", todaysSel: "今日の厳選" },
-  es: { heroTitle: "LOS TWEETS<br><span>MÁS GRACIOSOS</span><br>DE JAPÓN —<br>PARA EL MUNDO", subtitle: "Tweets virales de Twitter japonés, traducidos y explicados para el mundo.", stat1: "Selección de hoy", stat2: "Idiomas", stat3: "Buenas vibras", barText: "Traducciones con IA — entiende cada tweet en tu idioma", translateAll: "Traducir todos", todaysSel: "Selección de hoy" },
-  fr: { heroTitle: "LES TWEETS<br><span>LES PLUS DRÔLES</span><br>DU JAPON —<br>POUR LE MONDE", subtitle: "Tweets viraux de Twitter japonais, traduits et expliqués pour le monde.", stat1: "Sélections du jour", stat2: "Langues", stat3: "Bonne ambiance", barText: "Traductions IA — comprenez chaque tweet dans votre langue", translateAll: "Tout traduire", todaysSel: "Sélection du jour" },
-  de: { heroTitle: "JAPANS<br><span>LUSTIGSTE</span><br>TWEETS —<br>FÜR DIE WELT", subtitle: "Handverlesene virale Tweets aus dem japanischen Twitter.", stat1: "Heutige Picks", stat2: "Sprachen", stat3: "Gute Vibes", barText: "KI-Übersetzungen — verstehe jeden Tweet in deiner Sprache", translateAll: "Alle übersetzen", todaysSel: "Heutige Auswahl" },
-  ko: { heroTitle: "일본의<br><span>가장 웃긴</span><br>트윗 —<br>세계를 위해", subtitle: "매일 엄선한 일본 트위터의 바이럴 트윗을 번역해 소개합니다.", stat1: "오늘의 픽", stat2: "언어", stat3: "좋은 바이브", barText: "AI 번역 — 모든 트윗을 당신의 언어로", translateAll: "전부 번역하기", todaysSel: "오늘의 선택" },
-  zh: { heroTitle: "日本<br><span>最搞笑的</span><br>推文 —<br>为全世界", subtitle: "每天精选日本推特上的病毒式传播推文，翻译解说。", stat1: "今日精选", stat2: "语言", stat3: "好心情", barText: "AI翻译 — 用你的语言理解每条推文", translateAll: "全部翻译", todaysSel: "今日精选" },
-  pt: { heroTitle: "OS TWEETS<br><span>MAIS ENGRAÇADOS</span><br>DO JAPÃO —<br>PARA O MUNDO", subtitle: "Tweets virais do Twitter japonês, traduzidos e explicados para o mundo.", stat1: "Seleções de hoje", stat2: "Idiomas", stat3: "Boas vibrações", barText: "Traduções com IA — entenda cada tweet no seu idioma", translateAll: "Traduzir tudo", todaysSel: "Seleção de hoje" },
-  ru: { heroTitle: "САМЫЕ<br><span>СМЕШНЫЕ</span><br>ТВИТЫ ЯПОНИИ —<br>ДЛЯ МИРА", subtitle: "Отборные вирусные твиты из японского Twitter с переводом.", stat1: "Сегодняшние пики", stat2: "Языки", stat3: "Хорошие вибрации", barText: "ИИ-переводы — понимай каждый твит на своём языке", translateAll: "Перевести всё", todaysSel: "Сегодняшний выбор" }
+const uiT = {
+  en:{ title:"JAPAN'S<br><span>FUNNIEST</span><br>TWEETS —<br>FOR THE WORLD", sub:"Hand-picked viral tweets from Japanese Twitter — translated and explained for the world.", s1:"Today's Picks", s2:"Languages", s3:"Good Vibes", bar:"AI-powered translations — understand every tweet in your language", btn:"Translate All Tweets", sel:"Today's Selection", tBtn:"Translate Tweet" },
+  ja:{ title:"日本の<br><span>バズった</span><br>ツイート —<br>世界へ", sub:"毎日厳選した日本のバズりツイートを世界に届けます。", s1:"今日のピック", s2:"言語", s3:"良い雰囲気", bar:"AI翻訳機能 — あなたの言語でツイートを理解しよう", btn:"全部翻訳する", sel:"今日の厳選", tBtn:"翻訳する" },
+  es:{ title:"LOS TWEETS<br><span>MÁS GRACIOSOS</span><br>DE JAPÓN —<br>PARA EL MUNDO", sub:"Tweets virales de Twitter japonés, traducidos y explicados.", s1:"Selección de hoy", s2:"Idiomas", s3:"Buenas vibras", bar:"Traducciones IA — entiende cada tweet en tu idioma", btn:"Traducir todos", sel:"Selección de hoy", tBtn:"Traducir Tweet" },
+  fr:{ title:"LES TWEETS<br><span>LES PLUS DRÔLES</span><br>DU JAPON —<br>POUR LE MONDE", sub:"Tweets viraux japonais traduits et expliqués pour le monde.", s1:"Sélections du jour", s2:"Langues", s3:"Bonne ambiance", bar:"Traductions IA — comprenez chaque tweet dans votre langue", btn:"Tout traduire", sel:"Sélection du jour", tBtn:"Traduire" },
+  de:{ title:"JAPANS<br><span>LUSTIGSTE</span><br>TWEETS —<br>FÜR DIE WELT", sub:"Handverlesene virale Tweets aus Japan.", s1:"Heutige Picks", s2:"Sprachen", s3:"Gute Vibes", bar:"KI-Übersetzungen — jeden Tweet in deiner Sprache verstehen", btn:"Alle übersetzen", sel:"Heutige Auswahl", tBtn:"Übersetzen" },
+  ko:{ title:"일본의<br><span>가장 웃긴</span><br>트윗 —<br>세계를 위해", sub:"매일 엄선한 일본 트위터의 바이럴 트윗.", s1:"오늘의 픽", s2:"언어", s3:"좋은 바이브", bar:"AI 번역 — 모든 트윗을 당신의 언어로", btn:"전부 번역하기", sel:"오늘의 선택", tBtn:"번역하기" },
+  zh:{ title:"日本<br><span>最搞笑的</span><br>推文 —<br>为全世界", sub:"每天精选日本推特上的病毒式推文。", s1:"今日精选", s2:"语言", s3:"好心情", bar:"AI翻译 — 用你的语言理解每条推文", btn:"全部翻译", sel:"今日精选", tBtn:"翻译" },
+  pt:{ title:"OS TWEETS<br><span>MAIS ENGRAÇADOS</span><br>DO JAPÃO —<br>PARA O MUNDO", sub:"Tweets virais japoneses traduzidos e explicados.", s1:"Seleções de hoje", s2:"Idiomas", s3:"Boas vibrações", bar:"Traduções IA — entenda cada tweet no seu idioma", btn:"Traduzir tudo", sel:"Seleção de hoje", tBtn:"Traduzir" },
+  ru:{ title:"САМЫЕ<br><span>СМЕШНЫЕ</span><br>ТВИТЫ ЯПОНИИ —<br>ДЛЯ МИРА", sub:"Отборные вирусные твиты из японского Twitter.", s1:"Пики дня", s2:"Языки", s3:"Хорошие вибрации", bar:"ИИ-переводы — понимай каждый твит на своём языке", btn:"Перевести всё", sel:"Выбор дня", tBtn:"Перевести" }
 };
 
 function onLangChange() {
   const lang = getTargetLang();
-  const ui = uiTranslations[lang] || uiTranslations['en'];
-  document.getElementById('hero-title').innerHTML = ui.heroTitle;
-  document.getElementById('hero-subtitle').textContent = ui.subtitle;
-  document.getElementById('stat1').textContent = ui.stat1;
-  document.getElementById('stat2').textContent = ui.stat2;
-  document.getElementById('stat3').textContent = ui.stat3;
-  document.getElementById('bar-text').textContent = ui.barText;
-  document.getElementById('section-label').innerHTML = ui.todaysSel + ' &nbsp;·&nbsp; <span id="countLabel">' + TOTAL + ' tweets</span>';
+  const u = uiT[lang] || uiT['en'];
+  document.getElementById('hero-title').innerHTML = u.title;
+  document.getElementById('hero-subtitle').textContent = u.sub;
+  document.getElementById('stat1').textContent = u.s1;
+  document.getElementById('stat2').textContent = u.s2;
+  document.getElementById('stat3').textContent = u.s3;
+  document.getElementById('bar-text').textContent = u.bar;
+  document.getElementById('section-label').innerHTML = u.sel + ' &nbsp;·&nbsp; <span id="countLabel">' + TOTAL + ' tweets</span>';
   const globalBtn = document.getElementById('translate-all-btn');
-  globalBtn.disabled = false; globalBtn.style.background = ''; globalBtn.innerHTML = ui.translateAll;
+  globalBtn.disabled = false; globalBtn.style.background = ''; globalBtn.innerHTML = u.btn;
   for (let i = 1; i <= TOTAL; i++) {
     const transEl = document.getElementById('trans-'+i);
-    const ctxEl = document.getElementById('ctx-'+i);
-    const btn = document.getElementById('btn-'+i);
+    const ctxEl  = document.getElementById('ctx-'+i);
+    const btn    = document.getElementById('btn-'+i);
     if (transEl) transEl.innerHTML = '<em style="color:var(--muted)">Tap below to translate.</em>';
-    if (ctxEl) ctxEl.innerHTML = '';
-    if (btn) { btn.disabled = false; btn.style.background = ''; btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg> Translate Tweet'; }
+    if (ctxEl)  ctxEl.innerHTML = '';
+    if (btn) { btn.disabled = false; btn.style.background = ''; btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg> ' + u.tBtn; }
   }
 }
 
@@ -423,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const now = new Date();
   document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric', year:'numeric' }).toUpperCase();
   const nav = (navigator.language || 'en').toLowerCase().split('-')[0];
-  const supported = ['en','es','fr','de','zh','ko','pt','ar','hi','id','th','ru'];
+  const supported = ['en','ja','es','fr','de','pt','ko','zh','ar','hi','id','th','ru'];
   if (supported.includes(nav) && nav !== 'en') { document.getElementById('lang-select').value = nav; onLangChange(); }
 });
 </script>
