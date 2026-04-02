@@ -232,9 +232,36 @@ async function translateAll() {
   globalBtn.innerHTML = '✓ All translated';
   globalBtn.style.background = 'rgba(0,0,0,0.25)';
 }
+const uiTranslations = {
+  en: { heroTitle: "JAPAN'S<br><span>FUNNIEST</span><br>TWEETS —<br>FOR THE WORLD", subtitle: "Hand-picked viral tweets from Japanese Twitter — translated and explained for the world.", stat1: "Today's Picks", stat2: "Languages", stat3: "Good Vibes", barText: "AI-powered translations — understand every tweet in your language", translateAll: "Translate All Tweets", todaysSel: "Today's Selection" },
+  ja: { heroTitle: "日本の<br><span>バズった</span><br>ツイート —<br>世界へ", subtitle: "毎日厳選した日本のバズりツイートを世界に届けます。", stat1: "今日のピック", stat2: "言語", stat3: "良い雰囲気", barText: "AI翻訳機能 — あなたの言語でツイートを理解しよう", translateAll: "全部翻訳する", todaysSel: "今日の厳選" },
+  es: { heroTitle: "LOS TWEETS<br><span>MÁS GRACIOSOS</span><br>DE JAPÓN —<br>PARA EL MUNDO", subtitle: "Tweets virales de Twitter japonés, traducidos y explicados para el mundo.", stat1: "Selección de hoy", stat2: "Idiomas", stat3: "Buenas vibras", barText: "Traducciones con IA — entiende cada tweet en tu idioma", translateAll: "Traducir todos", todaysSel: "Selección de hoy" },
+  fr: { heroTitle: "LES TWEETS<br><span>LES PLUS DRÔLES</span><br>DU JAPON —<br>POUR LE MONDE", subtitle: "Tweets viraux de Twitter japonais, traduits et expliqués pour le monde.", stat1: "Sélections du jour", stat2: "Langues", stat3: "Bonne ambiance", barText: "Traductions IA — comprenez chaque tweet dans votre langue", translateAll: "Tout traduire", todaysSel: "Sélection du jour" },
+  de: { heroTitle: "JAPANS<br><span>LUSTIGSTE</span><br>TWEETS —<br>FÜR DIE WELT", subtitle: "Handverlesene virale Tweets aus dem japanischen Twitter.", stat1: "Heutige Picks", stat2: "Sprachen", stat3: "Gute Vibes", barText: "KI-Übersetzungen — verstehe jeden Tweet in deiner Sprache", translateAll: "Alle übersetzen", todaysSel: "Heutige Auswahl" },
+  ko: { heroTitle: "일본의<br><span>가장 웃긴</span><br>트윗 —<br>세계를 위해", subtitle: "매일 엄선한 일본 트위터의 바이럴 트윗을 번역해 소개합니다.", stat1: "오늘의 픽", stat2: "언어", stat3: "좋은 바이브", barText: "AI 번역 — 모든 트윗을 당신의 언어로", translateAll: "전부 번역하기", todaysSel: "오늘의 선택" },
+  zh: { heroTitle: "日本<br><span>最搞笑的</span><br>推文 —<br>为全世界", subtitle: "每天精选日本推特上的病毒式传播推文，翻译解说。", stat1: "今日精选", stat2: "语言", stat3: "好心情", barText: "AI翻译 — 用你的语言理解每条推文", translateAll: "全部翻译", todaysSel: "今日精选" },
+  pt: { heroTitle: "OS TWEETS<br><span>MAIS ENGRAÇADOS</span><br>DO JAPÃO —<br>PARA O MUNDO", subtitle: "Tweets virais do Twitter japonês, traduzidos e explicados para o mundo.", stat1: "Seleções de hoje", stat2: "Idiomas", stat3: "Boas vibrações", barText: "Traduções com IA — entenda cada tweet no seu idioma", translateAll: "Traduzir tudo", todaysSel: "Seleção de hoje" },
+  ru: { heroTitle: "САМЫЕ<br><span>СМЕШНЫЕ</span><br>ТВИТЫ ЯПОНИИ —<br>ДЛЯ МИРА", subtitle: "Отборные вирусные твиты из японского Twitter с переводом.", stat1: "Сегодняшние пики", stat2: "Языки", stat3: "Хорошие вибрации", barText: "ИИ-переводы — понимай каждый твит на своём языке", translateAll: "Перевести всё", todaysSel: "Сегодняшний выбор" }
+};
 function onLangChange() {
-  for (let i = 1; i <= 6; i++) { const transEl = document.getElementById('trans-'+i); const btn = document.getElementById('btn-'+i); if (transEl) transEl.innerHTML = '<em style="color:var(--muted)">Tap below to translate.</em>'; if (btn) { btn.disabled = false; btn.style.background = ''; btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg> Translate Tweet'; } }
-  const globalBtn = document.getElementById('translate-all-btn'); globalBtn.disabled = false; globalBtn.style.background = ''; globalBtn.innerHTML = 'Translate All Tweets';
+  const lang = getTargetLang();
+  const ui = uiTranslations[lang] || uiTranslations['en'];
+  document.querySelector('.hero-title').innerHTML = ui.heroTitle;
+  document.querySelector('.hero-subtitle').textContent = ui.subtitle;
+  document.querySelectorAll('.stat-label')[0].textContent = ui.stat1;
+  document.querySelectorAll('.stat-label')[1].textContent = ui.stat2;
+  document.querySelectorAll('.stat-label')[2].textContent = ui.stat3;
+  document.getElementById('bar-text').textContent = ui.barText;
+  document.getElementById('translate-all-btn').innerHTML = ui.translateAll;
+  document.getElementById('section-label').innerHTML = ui.todaysSel + ' &nbsp;·&nbsp; <span id="countLabel">6 tweets</span>';
+  for (let i = 1; i <= 6; i++) {
+    const transEl = document.getElementById('trans-'+i);
+    const btn = document.getElementById('btn-'+i);
+    if (transEl) transEl.innerHTML = '<em style="color:var(--muted)">Tap below to translate.</em>';
+    if (btn) { btn.disabled = false; btn.style.background = ''; btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg> Translate Tweet'; }
+  }
+  const globalBtn = document.getElementById('translate-all-btn');
+  globalBtn.disabled = false; globalBtn.style.background = ''; globalBtn.innerHTML = ui.translateAll;
 }
 function filterCat(pill, cat) {
   document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active')); pill.classList.add('active');
