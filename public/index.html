@@ -50,35 +50,44 @@
   .ad-slot .ad-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--border);margin-bottom:8px;}
   .ad-slot p{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
   .tweets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:28px;}
+
+  /* Card — tweet on top, translation directly below */
   .tweet-card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform 0.25s ease,box-shadow 0.25s ease;display:flex;flex-direction:column;animation:cardIn 0.5s ease both;}
   @keyframes cardIn{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
   .tweet-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.12);}
-  .card-header{padding:16px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+  .card-header{padding:14px 18px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
   .tag-pill{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:4px 10px;border-radius:20px;background:var(--cream);color:var(--muted);}
   .tag-pill.funny{background:#FFF3CD;color:#856404;}
   .tag-pill.heartwarming{background:#FCE4EC;color:#880E4F;}
   .tag-pill.food{background:#E8F5E9;color:#1B5E20;}
   .tag-pill.wild{background:#FBE9E7;color:#BF360C;}
   .tag-pill.animals{background:#E8F5E9;color:#2E7D32;}
-  .viral-meter{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--muted);font-weight:500;}
-  .tweet-embed-wrapper{padding:12px 12px 0;flex:1;min-height:200px;display:flex;align-items:flex-start;justify-content:center;}
+
+  /* Tweet embed */
+  .tweet-embed-wrapper{padding:12px 12px 0;display:flex;align-items:flex-start;justify-content:center;}
   .tweet-embed-wrapper .twitter-tweet{margin:0 auto !important;}
-  .card-translation{padding:14px 18px 18px;border-top:1px solid var(--border);background:#FAFAF8;}
-  .translation-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px;}
-  .translation-text{font-size:14px;line-height:1.65;color:#333;font-weight:300;}
+
+  /* Translation sits right below tweet, no gap */
+  .card-translation{padding:12px 18px 16px;border-top:1px solid var(--border);background:#FAFAF8;margin-top:12px;}
+  .translation-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:5px;}
+  .translation-text{font-size:13px;line-height:1.6;color:#333;font-weight:300;}
+  .context-text{font-size:12px;color:var(--muted);font-style:italic;margin-top:6px;line-height:1.5;}
+
   .skeleton-wrap{display:none;}
   .skeleton-wrap.visible{display:block;}
-  .skeleton-line{height:13px;border-radius:4px;background:linear-gradient(90deg,#ede6d8 25%,#d4c9b8 50%,#ede6d8 75%);background-size:200% 100%;animation:shimmer 1.3s infinite;margin-bottom:7px;}
+  .skeleton-line{height:12px;border-radius:4px;background:linear-gradient(90deg,#ede6d8 25%,#d4c9b8 50%,#ede6d8 75%);background-size:200% 100%;animation:shimmer 1.3s infinite;margin-bottom:6px;}
   .skeleton-line.short{width:60%;}
   @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
-  .translate-btn{display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:7px 14px;background:var(--ink);color:#fff;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:background 0.2s,transform 0.1s;letter-spacing:0.5px;}
+
+  .translate-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:6px 13px;background:var(--ink);color:#fff;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;cursor:pointer;transition:background 0.2s,transform 0.1s;letter-spacing:0.5px;}
   .translate-btn:hover{background:var(--red);}
   .translate-btn:active{transform:scale(0.97);}
   .translate-btn:disabled{opacity:0.5;cursor:not-allowed;}
-  .translate-btn svg{width:13px;height:13px;}
+  .translate-btn svg{width:12px;height:12px;}
   @keyframes spin{to{transform:rotate(360deg);}}
-  .spinner{display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0;}
+  .spinner{display:inline-block;width:11px;height:11px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0;}
   .spinner.dark{border-color:rgba(0,0,0,0.2);border-top-color:#3d2900;}
+
   footer{border-top:1px solid var(--border);padding:clamp(24px,4vw,40px) clamp(16px,5vw,60px);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;position:relative;z-index:1;}
   .footer-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--ink);}
   footer p{font-size:12px;color:var(--muted);line-height:1.6;}
@@ -162,8 +171,9 @@
       </div>
       <div class="card-translation">
         <div class="translation-label">✦ AI Translation</div>
-        <div class="translation-text" id="trans-1"><em style="color:var(--muted)">Tap below to translate.</em></div>
         <div class="skeleton-wrap" id="skel-1"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
+        <div class="translation-text" id="trans-1"><em style="color:var(--muted)">Tap below to translate.</em></div>
+        <div class="context-text" id="ctx-1"></div>
         <button class="translate-btn" id="btn-1" onclick="translateCard(this,1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button>
       </div>
     </div>
@@ -178,8 +188,9 @@
       </div>
       <div class="card-translation">
         <div class="translation-label">✦ AI Translation</div>
-        <div class="translation-text" id="trans-2"><em style="color:var(--muted)">Tap below to translate.</em></div>
         <div class="skeleton-wrap" id="skel-2"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
+        <div class="translation-text" id="trans-2"><em style="color:var(--muted)">Tap below to translate.</em></div>
+        <div class="context-text" id="ctx-2"></div>
         <button class="translate-btn" id="btn-2" onclick="translateCard(this,2)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button>
       </div>
     </div>
@@ -194,8 +205,9 @@
       </div>
       <div class="card-translation">
         <div class="translation-label">✦ AI Translation</div>
-        <div class="translation-text" id="trans-3"><em style="color:var(--muted)">Tap below to translate.</em></div>
         <div class="skeleton-wrap" id="skel-3"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
+        <div class="translation-text" id="trans-3"><em style="color:var(--muted)">Tap below to translate.</em></div>
+        <div class="context-text" id="ctx-3"></div>
         <button class="translate-btn" id="btn-3" onclick="translateCard(this,3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button>
       </div>
     </div>
@@ -210,8 +222,9 @@
       </div>
       <div class="card-translation">
         <div class="translation-label">✦ AI Translation</div>
-        <div class="translation-text" id="trans-4"><em style="color:var(--muted)">Tap below to translate.</em></div>
         <div class="skeleton-wrap" id="skel-4"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
+        <div class="translation-text" id="trans-4"><em style="color:var(--muted)">Tap below to translate.</em></div>
+        <div class="context-text" id="ctx-4"></div>
         <button class="translate-btn" id="btn-4" onclick="translateCard(this,4)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button>
       </div>
     </div>
@@ -226,8 +239,9 @@
       </div>
       <div class="card-translation">
         <div class="translation-label">✦ AI Translation</div>
-        <div class="translation-text" id="trans-5"><em style="color:var(--muted)">Tap below to translate.</em></div>
         <div class="skeleton-wrap" id="skel-5"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
+        <div class="translation-text" id="trans-5"><em style="color:var(--muted)">Tap below to translate.</em></div>
+        <div class="context-text" id="ctx-5"></div>
         <button class="translate-btn" id="btn-5" onclick="translateCard(this,5)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button>
       </div>
     </div>
@@ -242,8 +256,9 @@
       </div>
       <div class="card-translation">
         <div class="translation-label">✦ AI Translation</div>
-        <div class="translation-text" id="trans-6"><em style="color:var(--muted)">Tap below to translate.</em></div>
         <div class="skeleton-wrap" id="skel-6"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
+        <div class="translation-text" id="trans-6"><em style="color:var(--muted)">Tap below to translate.</em></div>
+        <div class="context-text" id="ctx-6"></div>
         <button class="translate-btn" id="btn-6" onclick="translateCard(this,6)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button>
       </div>
     </div>
@@ -258,8 +273,9 @@
       </div>
       <div class="card-translation">
         <div class="translation-label">✦ AI Translation</div>
-        <div class="translation-text" id="trans-7"><em style="color:var(--muted)">Tap below to translate.</em></div>
         <div class="skeleton-wrap" id="skel-7"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
+        <div class="translation-text" id="trans-7"><em style="color:var(--muted)">Tap below to translate.</em></div>
+        <div class="context-text" id="ctx-7"></div>
         <button class="translate-btn" id="btn-7" onclick="translateCard(this,7)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button>
       </div>
     </div>
@@ -274,8 +290,9 @@
       </div>
       <div class="card-translation">
         <div class="translation-label">✦ AI Translation</div>
-        <div class="translation-text" id="trans-8"><em style="color:var(--muted)">Tap below to translate.</em></div>
         <div class="skeleton-wrap" id="skel-8"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
+        <div class="translation-text" id="trans-8"><em style="color:var(--muted)">Tap below to translate.</em></div>
+        <div class="context-text" id="ctx-8"></div>
         <button class="translate-btn" id="btn-8" onclick="translateCard(this,8)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button>
       </div>
     </div>
@@ -293,6 +310,17 @@
 <script>
 const TOTAL = 8;
 
+const tweetTexts = {
+  1: '可愛い\n脱糞時道路の縁に沿って横スライドするの、結構キモいからやめて欲しい',
+  2: '初めての予防接種にとんでもない顔になってしまうワンコが撮影される',
+  3: '黒人差別も甚だしい。ティアの訂正をお願いします。',
+  4: '職場に対しては、「私を採用しちゃって、全くもう　おバカさん(笑)」と思っている',
+  5: '「金玉ドアストッパー」発売中！購入',
+  6: 'ナルト見始めたんだけど、サクラがうざすぎて4話で止まってます\nサクラはいつまでうざいのか教えてくれよ',
+  7: 'ナルト見始めたんだけど、サクラがうざすぎて4話で止まってます\nサクラはいつまでうざいのか教えてくれよ',
+  8: '東京おすすめ餃子🥟\n・ファイト餃子(巣鴨)\n・餃子の肉太郎(神保町)\n・えびすの安兵衛(恵比寿)\n・金春(蒲田)'
+};
+
 function getTargetLang() {
   const sel = document.getElementById('lang-select').value;
   if (sel !== 'auto') return sel;
@@ -307,22 +335,22 @@ async function translateCard(btn, id) {
   btn.innerHTML = '<span class="spinner"></span> Translating…';
   const skelEl = document.getElementById('skel-'+id);
   const transEl = document.getElementById('trans-'+id);
+  const ctxEl = document.getElementById('ctx-'+id);
   skelEl.classList.add('visible');
   transEl.innerHTML = '';
-
-  // ツイートのテキストをページから取得（埋め込みから）
-  const tweetUrl = document.querySelector('.tweet-card:nth-child('+id+') blockquote a')?.href || '';
+  ctxEl.innerHTML = '';
 
   try {
     const res = await fetch('/api/translate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tweetUrl, id, lang })
+      body: JSON.stringify({ tweet: tweetTexts[id], lang })
     });
     if (!res.ok) throw new Error('API error');
     const result = await res.json();
     skelEl.classList.remove('visible');
-    transEl.innerHTML = (result.translation || '—') + '<br><br><em style="color:var(--muted);font-size:12px;">' + (result.context || '') + '</em>';
+    transEl.innerHTML = result.translation || '—';
+    if (result.context) ctxEl.innerHTML = result.context;
     btn.innerHTML = '✓ Translated';
     btn.style.background = '#2e7d32';
   } catch(e) {
@@ -371,8 +399,10 @@ function onLangChange() {
   globalBtn.disabled = false; globalBtn.style.background = ''; globalBtn.innerHTML = ui.translateAll;
   for (let i = 1; i <= TOTAL; i++) {
     const transEl = document.getElementById('trans-'+i);
+    const ctxEl = document.getElementById('ctx-'+i);
     const btn = document.getElementById('btn-'+i);
     if (transEl) transEl.innerHTML = '<em style="color:var(--muted)">Tap below to translate.</em>';
+    if (ctxEl) ctxEl.innerHTML = '';
     if (btn) { btn.disabled = false; btn.style.background = ''; btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg> Translate Tweet'; }
   }
 }
