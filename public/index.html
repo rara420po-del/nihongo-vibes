@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NIHONGO VIBES — Japan's Funniest Tweets</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;700&family=DM+Sans:ital,wght@0,300;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <style>
   :root{--red:#E8001C;--ink:#0D0D0D;--cream:#F5F0E8;--gold:#C8A84B;--muted:#8A8680;--card-bg:#FFFFFF;--border:#E0D9CF;}
@@ -39,6 +39,7 @@
   .hero-eyebrow::before{content:'';display:inline-block;width:24px;height:2px;background:var(--red);}
   .hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,10vw,110px);line-height:0.9;letter-spacing:1px;color:var(--ink);}
   .hero-title span{color:var(--red);}
+  .hero-title.ja-mode{font-family:'Noto Sans JP',sans-serif;font-size:clamp(38px,7.5vw,85px);line-height:0.95;letter-spacing:3px;font-weight:900;}
   .hero-subtitle{font-size:clamp(14px,2vw,16px);color:var(--muted);font-style:italic;font-weight:300;margin-top:16px;max-width:500px;line-height:1.6;}
   .hero-stats{display:flex;gap:24px;margin-top:28px;}
   .stat{display:flex;flex-direction:column;gap:2px;}
@@ -322,9 +323,8 @@ const langFlags = {
   id:'🇮🇩', th:'🇹🇭', ru:'🇷🇺', auto:'🌐'
 };
 
-// いいねデータ（セッション中のみ保持）
-const likesData = {};
-for (let i = 1; i <= TOTAL; i++) likesData[i] = {};
+// サーバーから取得したいいねデータ
+let serverLikes = {};
 const userLiked = {};
 
 function getCurrentFlag() {
@@ -332,49 +332,73 @@ function getCurrentFlag() {
   return langFlags[lang] || '🌐';
 }
 
-function handleLike(id) {
+// 起動時にいいね数を読み込む
+async function loadLikes() {
+  try {
+    const res = await fetch('/api/likes');
+    const data = await res.json();
+    serverLikes = data.likes || {};
+    for (let i = 1; i <= TOTAL; i++) renderFlags(i);
+    updateTotalLikes();
+  } catch(e) {
+    console.log('Could not load likes');
+  }
+}
+
+async function handleLike(id) {
   const btn = document.getElementById('like-'+id);
   const flag = getCurrentFlag();
-  const lang = document.getElementById('lang-select').value || 'auto';
+  const key = `${id}_${flag}`;
+  const action = userLiked[id] ? 'unlike' : 'like';
 
+  // UI即座に反映
   if (userLiked[id]) {
-    // unlike
     userLiked[id] = false;
     btn.classList.remove('liked');
     btn.innerHTML = '❤️ Like';
-    if (likesData[id][flag]) {
-      likesData[id][flag]--;
-      if (likesData[id][flag] <= 0) delete likesData[id][flag];
-    }
+    serverLikes[key] = Math.max(0, (serverLikes[key] || 1) - 1);
+    if (serverLikes[key] === 0) delete serverLikes[key];
   } else {
-    // like
     userLiked[id] = true;
     btn.classList.add('liked');
     btn.classList.add('pop');
     btn.innerHTML = '❤️ Liked!';
     setTimeout(() => btn.classList.remove('pop'), 300);
-    likesData[id][flag] = (likesData[id][flag] || 0) + 1;
+    serverLikes[key] = (serverLikes[key] || 0) + 1;
   }
 
   renderFlags(id);
   updateTotalLikes();
+
+  // サーバーに保存
+  try {
+    await fetch('/api/likes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cardId: id, flag, action })
+    });
+  } catch(e) {
+    console.log('Could not save like');
+  }
 }
 
 function renderFlags(id) {
   const container = document.getElementById('flags-'+id);
-  const data = likesData[id];
-  const sorted = Object.entries(data).sort((a,b) => b[1]-a[1]);
-  container.innerHTML = sorted.map(([flag, count]) =>
+  if (!container) return;
+  const entries = Object.entries(serverLikes)
+    .filter(([k]) => k.startsWith(id+'_'))
+    .map(([k, v]) => [k.replace(id+'_', ''), v])
+    .filter(([, v]) => v > 0)
+    .sort((a, b) => b[1] - a[1]);
+  container.innerHTML = entries.map(([flag, count]) =>
     `<span class="flag-count">${flag} ${count}</span>`
   ).join('');
 }
 
 function updateTotalLikes() {
-  let total = 0;
-  for (let i = 1; i <= TOTAL; i++) {
-    total += Object.values(likesData[i]).reduce((a,b) => a+b, 0);
-  }
-  document.getElementById('total-likes').textContent = total;
+  const total = Object.values(serverLikes).reduce((a, b) => a + b, 0);
+  const el = document.getElementById('total-likes');
+  if (el) el.textContent = total;
 }
 
 const tweetTexts = {
@@ -455,7 +479,14 @@ const uiT = {
 function onLangChange() {
   const lang = getTargetLang();
   const u = uiT[lang] || uiT['en'];
-  document.getElementById('hero-title').innerHTML = u.title;
+  const titleEl = document.getElementById('hero-title');
+  titleEl.innerHTML = u.title;
+  // 日本語のときだけ専用フォントクラスを付ける
+  if (lang === 'ja') {
+    titleEl.classList.add('ja-mode');
+  } else {
+    titleEl.classList.remove('ja-mode');
+  }
   document.getElementById('hero-subtitle').textContent = u.sub;
   document.getElementById('stat1').textContent = u.s1;
   document.getElementById('stat2').textContent = u.s2;
@@ -492,6 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const nav = (navigator.language || 'en').toLowerCase().split('-')[0];
   const supported = ['en','ja','es','fr','de','pt','ko','zh','ar','hi','id','th','ru'];
   if (supported.includes(nav) && nav !== 'en') { document.getElementById('lang-select').value = nav; onLangChange(); }
+  loadLikes();
 });
 </script>
 </body>
