@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIHONGO VIBES — Japan's Funniest Tweets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;700&family=DM+Sans:ital,wght@0,300;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<style>
+  :root {
+    --red: #E8001C;
+    --ink: #0D0D0D;
+    --cream: #F5F0E8;
+    --gold: #C8A84B;
+    --muted: #8A8680;
+    --card-bg: #FFFFFF;
+    --border: #E0D9CF;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 999; opacity: 0.4; }
+  header { position: sticky; top: 0; z-index: 100; background: var(--ink); border-bottom: 3px solid var(--red); padding: 0 clamp(16px, 5vw, 60px); display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { display: flex; align-items: baseline; gap: 10px; }
+  .logo-main { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 3px; color: #fff; line-height: 1; }
+  .logo-jp { font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: var(--red); font-weight: 700; letter-spacing: 2px; }
+  .header-right { display: flex; align-items: center; gap: 20px; }
+  .date-badge { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .lang-switcher { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 6px 12px; }
+  .lang-switcher select { background: transparent; border: none; color: #fff; font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer; outline: none; appearance: none; -webkit-appearance: none; }
+  .lang-switcher select option { background: #1a1a1a; }
+  .lang-icon { font-size: 16px; line-height: 1; }
+  #translation-bar { background: linear-gradient(135deg, var(--gold) 0%, #b8943e 100%); padding: 10px clamp(16px, 5vw, 60px); display: flex; align-items: center; gap: 12px; }
+  #translation-bar .bar-icon { font-size: 18px; }
+  #translation-bar p { font-size: 13px; font-weight: 500; color: #3d2900; flex: 1; }
+  .translate-all-btn { background: rgba(0,0,0,0.15); border: none; border-radius: 6px; padding: 6px 14px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: #3d2900; cursor: pointer; transition: background 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
+  .translate-all-btn:hover { background: rgba(0,0,0,0.25); }
+  .translate-all-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .hero { padding: clamp(40px, 8vw, 80px) clamp(16px, 5vw, 60px) clamp(30px, 5vw, 50px); display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: end; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+  .hero::after { content: '🇯🇵'; position: absolute; right: clamp(16px, 5vw, 60px); top: 50%; transform: translateY(-50%); font-size: clamp(80px, 15vw, 160px); opacity: 0.06; pointer-events: none; line-height: 1; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--red); font-weight: 500; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .hero-eyebrow::before { content: ''; display: inline-block; width: 24px; height: 2px; background: var(--red); }
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 10vw, 110px); line-height: 0.9; letter-spacing: 1px; color: var(--ink); }
+  .hero-title span { color: var(--red); }
+  .hero-subtitle { font-size: clamp(14px, 2vw, 16px); color: var(--muted); font-style: italic; font-weight: 300; margin-top: 16px; max-width: 500px; line-height: 1.6; }
+  .hero-stats { display: flex; gap: 24px; margin-top: 28px; }
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--ink); line-height: 1; }
+  .stat-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  main { padding: clamp(24px, 5vw, 60px) clamp(16px, 5vw, 60px); position: relative; z-index: 1; }
+  .categories { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+  .cat-pill { padding: 5px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 500; border: 1.5px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+  .cat-pill:hover, .cat-pill.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+  .section-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); margin-bottom: 28px; display: flex; align-items: center; gap: 12px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .ad-slot { border: 2px dashed var(--border); border-radius: 12px; padding: 32px; text-align: center; background: rgba(200,168,75,0.04); margin: 28px 0; }
+  .ad-slot .ad-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--border); margin-bottom: 8px; }
+  .ad-slot p { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+  .tweets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); gap: 28px; }
+  .tweet-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: transform 0.25s ease, box-shadow 0.25s ease; display: flex; flex-direction: column; animation: cardIn 0.5s ease both; }
+  @keyframes cardIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .tweet-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.12); }
+  .card-header { padding: 16px 18px 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .tag-pill { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; padding: 4px 10px; border-radius: 20px; background: var(--cream); color: var(--muted); }
+  .tag-pill.funny { background: #FFF3CD; color: #856404; }
+  .tag-pill.heartwarming { background: #FCE4EC; color: #880E4F; }
+  .tag-pill.food { background: #E8F5E9; color: #1B5E20; }
+  .tag-pill.wild { background: #FBE9E7; color: #BF360C; }
+  .tag-pill.animals { background: #E8F5E9; color: #2E7D32; }
+  .viral-meter { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); font-weight: 500; }
+  .tweet-embed-wrapper { padding: 12px 12px 0; flex: 1; min-height: 200px; display: flex; align-items: flex-start; justify-content: center; }
+  .tweet-embed-wrapper .twitter-tweet { margin: 0 auto !important; }
+  .card-translation { padding: 14px 18px 18px; border-top: 1px solid var(--border); background: #FAFAF8; }
+  .translation-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+  .translation-text { font-size: 14px; line-height: 1.65; color: #333; font-weight: 300; }
+  .skeleton-wrap { display: none; }
+  .skeleton-wrap.visible { display: block; }
+  .skeleton-line { height: 13px; border-radius: 4px; background: linear-gradient(90deg, #ede6d8 25%, #d4c9b8 50%, #ede6d8 75%); background-size: 200% 100%; animation: shimmer 1.3s infinite; margin-bottom: 7px; }
+  .skeleton-line.short { width: 60%; }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+  .translate-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 7px 14px; background: var(--ink); color: #fff; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; transition: background 0.2s, transform 0.1s; letter-spacing: 0.5px; }
+  .translate-btn:hover { background: var(--red); }
+  .translate-btn:active { transform: scale(0.97); }
+  .translate-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .translate-btn svg { width: 13px; height: 13px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+  .spinner.dark { border-color: rgba(0,0,0,0.2); border-top-color: #3d2900; }
+  footer { border-top: 1px solid var(--border); padding: clamp(24px, 4vw, 40px) clamp(16px, 5vw, 60px); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; position: relative; z-index: 1; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 3px; color: var(--ink); }
+  footer p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a { font-size: 12px; color: var(--muted); text-decoration: none; letter-spacing: 1px; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--red); }
+  @media (max-width: 600px) { .hero { grid-template-columns: 1fr; } .hero::after { display: none; } .hero-stats { gap: 16px; } .header-right .date-badge { display: none; } footer { flex-direction: column; align-items: flex-start; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <span class="logo-main">NIHONGO VIBES</span>
+    <span class="logo-jp">日本語バイブス</span>
+  </div>
+  <div class="header-right">
+    <span class="date-badge" id="current-date"></span>
+    <div class="lang-switcher">
+      <span class="lang-icon">🌐</span>
+      <select id="lang-select" onchange="onLangChange(this.value)">
+        <option value="auto">Auto-detect</option>
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="pt">Português</option>
+        <option value="ko">한국어</option>
+        <option value="zh">中文</option>
+        <option value="ar">العربية</option>
+        <option value="hi">हिन्दी</option>
+        <option value="id">Indonesia</option>
+        <option value="th">ไทย</option>
+        <option value="ru">Русский</option>
+      </select>
+    </div>
+  </div>
+</header>
+<div id="translation-bar">
+  <span class="bar-icon">✨</span>
+  <p>AI-powered translations — understand every tweet in your language</p>
+  <button class="translate-all-btn" id="translate-all-btn" onclick="translateAll()">Translate All Tweets</button>
+</div>
+<section class="hero">
+  <div>
+    <p class="hero-eyebrow">Daily Edition</p>
+    <h1 class="hero-title">JAPAN'S<br><span>FUNNIEST</span><br>TWEETS —<br>FOR THE WORLD</h1>
+    <p class="hero-subtitle">Hand-picked viral tweets from Japanese Twitter — translated and explained for the world.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">6</span><span class="stat-label">Today's Picks</span></div>
+      <div class="stat"><span class="stat-num">12</span><span class="stat-label">Languages</span></div>
+      <div class="stat"><span class="stat-num">∞</span><span class="stat-label">Good Vibes</span></div>
+    </div>
+  </div>
+</section>
+<main>
+  <div class="categories">
+    <button class="cat-pill active" onclick="filterCat(this,'all')">All</button>
+    <button class="cat-pill" onclick="filterCat(this,'funny')">😂 Funny</button>
+    <button class="cat-pill" onclick="filterCat(this,'heartwarming')">🥹 Heartwarming</button>
+    <button class="cat-pill" onclick="filterCat(this,'wild')">🤯 Wild</button>
+    <button class="cat-pill" onclick="filterCat(this,'animals')">🐾 Animals</button>
+    <button class="cat-pill" onclick="filterCat(this,'food')">🍜 Food</button>
+  </div>
+  <div class="ad-slot"><p class="ad-label">Advertisement</p><p>[ Google AdSense / Sponsored Content Goes Here ]</p></div>
+  <p class="section-label">Today's Selection &nbsp;·&nbsp; <span id="countLabel">6 tweets</span></p>
+  <div class="tweets-grid" id="tweetsGrid">
+    <div class="tweet-card" data-cat="funny" style="animation-delay:0.05s">
+      <div class="card-header"><span class="tag-pill funny">😂 Funny</span><span class="viral-meter">🔥🔥🔥 142k likes</span></div>
+      <div class="tweet-embed-wrapper"><blockquote class="twitter-tweet" data-dnt="true" data-theme="light"><p lang="ja" dir="ltr">上司に「なんで遅刻したんだ」って聞かれたから「目覚ましが鳴らなかったので」と言ったら「なんで鳴らなかったんだ」と言われ「電池切れです」と言ったら「なんで電池切れにしたんだ」と言われ「していません」と言ったら「じゃあなんで切れた」と言われ無限ループに入った</p></blockquote></div>
+      <div class="card-translation"><div class="translation-label">✦ AI Translation</div><div class="translation-text" id="trans-1"><em style="color:var(--muted)">Tap below to translate.</em></div><div class="skeleton-wrap" id="skel-1"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div><button class="translate-btn" id="btn-1" onclick="translateCard(this,1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button></div>
+    </div>
+    <div class="tweet-card" data-cat="animals" style="animation-delay:0.1s">
+      <div class="card-header"><span class="tag-pill animals">🐾 Animals</span><span class="viral-meter">🔥🔥🔥🔥 289k likes</span></div>
+      <div class="tweet-embed-wrapper"><blockquote class="twitter-tweet" data-dnt="true" data-theme="light"><p lang="ja" dir="ltr">猫が「ニャー」って鳴いたから「ニャー」って返したら3時間後もまだ返事が来てる。何の話をしてるのか全くわからないけど会話は成立してる。</p></blockquote></div>
+      <div class="card-translation"><div class="translation-label">✦ AI Translation</div><div class="translation-text" id="trans-2"><em style="color:var(--muted)">Tap below to translate.</em></div><div class="skeleton-wrap" id="skel-2"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div><button class="translate-btn" id="btn-2" onclick="translateCard(this,2)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button></div>
+    </div>
+    <div class="tweet-card" data-cat="wild" style="animation-delay:0.15s">
+      <div class="card-header"><span class="tag-pill wild">🤯 Wild</span><span class="viral-meter">🔥🔥🔥🔥🔥 95k likes</span></div>
+      <div class="tweet-embed-wrapper"><blockquote class="twitter-tweet" data-dnt="true" data-theme="light"><p lang="ja" dir="ltr">コンビニでレジ打ってる時、お客さんに「温めますか？」って聞いたら「人生を？」って返されて頭の中が空白になった。温めますよ、人生も</p></blockquote></div>
+      <div class="card-translation"><div class="translation-label">✦ AI Translation</div><div class="translation-text" id="trans-3"><em style="color:var(--muted)">Tap below to translate.</em></div><div class="skeleton-wrap" id="skel-3"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div><button class="translate-btn" id="btn-3" onclick="translateCard(this,3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button></div>
+    </div>
+    <div class="tweet-card" data-cat="heartwarming" style="animation-delay:0.2s">
+      <div class="card-header"><span class="tag-pill heartwarming">🥹 Heartwarming</span><span class="viral-meter">🔥🔥🔥🔥🔥 512k likes</span></div>
+      <div class="tweet-embed-wrapper"><blockquote class="twitter-tweet" data-dnt="true" data-theme="light"><p lang="ja" dir="ltr">おじいちゃんがスマホを覚えて初めて送ってきたLINEが「元気ですか。おじいちゃんです」で泣いた。もちろん元気だよおじいちゃん。</p></blockquote></div>
+      <div class="card-translation"><div class="translation-label">✦ AI Translation</div><div class="translation-text" id="trans-4"><em style="color:var(--muted)">Tap below to translate.</em></div><div class="skeleton-wrap" id="skel-4"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div><button class="translate-btn" id="btn-4" onclick="translateCard(this,4)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button></div>
+    </div>
+    <div class="tweet-card" data-cat="food" style="animation-delay:0.25s">
+      <div class="card-header"><span class="tag-pill food">🍜 Food</span><span class="viral-meter">🔥🔥🔥 67k likes</span></div>
+      <div class="tweet-embed-wrapper"><blockquote class="twitter-tweet" data-dnt="true" data-theme="light"><p lang="ja" dir="ltr">ラーメン屋でひとり飯してたら隣の外国人が「何を頼めばいいか」みたいな顔で困ってたので「これが一番うまい」って写真見せたら満面の笑みで注文してた。ラーメンは世界共通言語</p></blockquote></div>
+      <div class="card-translation"><div class="translation-label">✦ AI Translation</div><div class="translation-text" id="trans-5"><em style="color:var(--muted)">Tap below to translate.</em></div><div class="skeleton-wrap" id="skel-5"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div><button class="translate-btn" id="btn-5" onclick="translateCard(this,5)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button></div>
+    </div>
+    <div class="tweet-card" data-cat="funny" style="animation-delay:0.3s">
+      <div class="card-header"><span class="tag-pill funny">😂 Funny</span><span class="viral-meter">🔥🔥🔥🔥 203k likes</span></div>
+      <div class="tweet-embed-wrapper"><blockquote class="twitter-tweet" data-dnt="true" data-theme="light"><p lang="ja" dir="ltr">子供に「サンタさんはいるの？」って聞かれたから「信じてる人にしか来ない」って言ったら「じゃあパパには来ないね」って言われた。正確すぎる</p></blockquote></div>
+      <div class="card-translation"><div class="translation-label">✦ AI Translation</div><div class="translation-text" id="trans-6"><em style="color:var(--muted)">Tap below to translate.</em></div><div class="skeleton-wrap" id="skel-6"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div><button class="translate-btn" id="btn-6" onclick="translateCard(this,6)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button></div>
+    </div>
+  </div>
+  <div class="ad-slot" style="margin-top:40px;"><p class="ad-label">Advertisement</p><p>[ Google AdSense — Leaderboard 728×90 ]</p></div>
+</main>
+<footer>
+  <div><div class="footer-logo">NIHONGO VIBES</div><p style="margin-top:4px;">Updated daily · Curated by humans · Translated by Claude AI</p></div>
+  <div class="footer-links"><a href="#">About</a><a href="#">Submit a Tweet</a><a href="#">Advertise</a><a href="#">Contact</a></div>
+</footer>
+<script>
+const tweetTexts = {
+  1: '上司に「なんで遅刻したんだ」って聞かれたから「目覚ましが鳴らなかったので」と言ったら「なんで鳴らなかったんだ」と言われ「電池切れです」と言ったら「なんで電池切れにしたんだ」と言われ「していません」と言ったら「じゃあなんで切れた」と言われ無限ループに入った',
+  2: '猫が「ニャー」って鳴いたから「ニャー」って返したら3時間後もまだ返事が来てる。何の話をしてるのか全くわからないけど会話は成立してる。',
+  3: 'コンビニでレジ打ってる時、お客さんに「温めますか？」って聞いたら「人生を？」って返されて頭の中が空白になった。温めますよ、人生も',
+  4: 'おじいちゃんがスマホを覚えて初めて送ってきたLINEが「元気ですか。おじいちゃんです」で泣いた。もちろん元気だよおじいちゃん。',
+  5: 'ラーメン屋でひとり飯してたら隣の外国人が「何を頼めばいいか」みたいな顔で困ってたので「これが一番うまい」って写真見せたら満面の笑みで注文してた。ラーメンは世界共通言語',
+  6: '子供に「サンタさんはいるの？」って聞かれたから「信じてる人にしか来ない」って言ったら「じゃあパパには来ないね」って言われた。正確すぎる'
+};
+const langNames = { en:'English', es:'Spanish', fr:'French', de:'German', pt:'Portuguese', ko:'Korean', zh:'Chinese (Simplified)', ar:'Arabic', hi:'Hindi', id:'Indonesian', th:'Thai', ru:'Russian', auto:'English' };
+function getTargetLang() { const sel = document.getElementById('lang-select').value; if (sel !== 'auto') return sel; const nav = (navigator.language || 'en').toLowerCase().split('-')[0]; const supported = ['en','es','fr','de','zh','ko','pt','ar','hi','id','th','ru']; return supported.includes(nav) ? nav : 'en'; }
+async function translateCard(btn, id) {
+  const lang = getTargetLang();
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Translating…';
+  const skelEl = document.getElementById('skel-'+id);
+  const transEl = document.getElementById('trans-'+id);
+  skelEl.classList.add('visible');
+  transEl.innerHTML = '';
+  try {
+    const res = await fetch('/api/translate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tweet: tweetTexts[id], lang }) });
+    if (!res.ok) throw new Error('API error');
+    const result = await res.json();
+    skelEl.classList.remove('visible');
+    transEl.innerHTML = (result.translation || '—') + '<br><br><em style="color:var(--muted);font-size:12px;">' + (result.context || '') + '</em>';
+    btn.innerHTML = '✓ Translated';
+    btn.style.background = '#2e7d32';
+  } catch(e) {
+    skelEl.classList.remove('visible');
+    transEl.innerHTML = '<em style="color:var(--muted)">Translation failed. Please retry.</em>';
+    btn.disabled = false;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg> Retry';
+  }
+}
+async function translateAll() {
+  const globalBtn = document.getElementById('translate-all-btn');
+  globalBtn.disabled = true;
+  globalBtn.innerHTML = '<span class="spinner dark"></span> Translating…';
+  for (let i = 1; i <= 6; i++) { const btn = document.getElementById('btn-'+i); if (btn && !btn.disabled) { await translateCard(btn, i); await new Promise(r => setTimeout(r, 300)); } }
+  globalBtn.innerHTML = '✓ All translated';
+  globalBtn.style.background = 'rgba(0,0,0,0.25)';
+}
+function onLangChange() {
+  for (let i = 1; i <= 6; i++) { const transEl = document.getElementById('trans-'+i); const btn = document.getElementById('btn-'+i); if (transEl) transEl.innerHTML = '<em style="color:var(--muted)">Tap below to translate.</em>'; if (btn) { btn.disabled = false; btn.style.background = ''; btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg> Translate Tweet'; } }
+  const globalBtn = document.getElementById('translate-all-btn'); globalBtn.disabled = false; globalBtn.style.background = ''; globalBtn.innerHTML = 'Translate All Tweets';
+}
+function filterCat(pill, cat) {
+  document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active')); pill.classList.add('active');
+  let visible = 0; document.querySelectorAll('.tweet-card').forEach(c => { const show = cat === 'all' || c.dataset.cat === cat; c.style.display = show ? '' : 'none'; if (show) visible++; });
+  document.getElementById('countLabel').textContent = visible + ' tweet' + (visible !== 1 ? 's' : '');
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const now = new Date(); document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric', year:'numeric' }).toUpperCase();
+  const nav = (navigator.language || 'en').toLowerCase().split('-')[0]; const supported = ['en','es','fr','de','zh','ko','pt','ar','hi','id','th','ru']; if (supported.includes(nav) && nav !== 'en') document.getElementById('lang-select').value = nav;
+});
+</script>
+</body>
+</html>
