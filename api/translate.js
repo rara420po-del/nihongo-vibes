@@ -4,20 +4,42 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
-  const { tweet, lang } = req.body;
-  if (!tweet || !lang) return res.status(400).json({ error: 'Missing tweet or lang' });
-  const langNames = { en:'English', es:'Spanish', fr:'French', de:'German', pt:'Portuguese', ko:'Korean', zh:'Chinese (Simplified)', ar:'Arabic', hi:'Hindi', id:'Indonesian', th:'Thai', ru:'Russian' };
+
+  const { tweetUrl, lang } = req.body;
+  if (!lang) return res.status(400).json({ error: 'Missing lang' });
+
+  const langNames = {
+    en:'English', es:'Spanish', fr:'French', de:'German', pt:'Portuguese',
+    ko:'Korean', zh:'Chinese (Simplified)', ar:'Arabic', hi:'Hindi',
+    id:'Indonesian', th:'Thai', ru:'Russian'
+  };
   const langName = langNames[lang] || 'English';
+
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01'
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
-        messages: [{ role: 'user', content: `You are helping a site that curates funny and viral Japanese tweets for international audiences.\n\nJapanese tweet: "${tweet}"\n\nProvide:\n1. A natural, fluent translation into ${langName} that captures the humor and nuance\n2. A brief cultural context note (1–2 sentences) explaining why this is funny or culturally significant\n\nRespond ONLY with a JSON object, no markdown:\n{"translation": "...", "context": "💡 Context: ..."}` }]
+        messages: [{
+          role: 'user',
+          content: `You are helping a site that curates funny and viral Japanese tweets for international audiences.
+
+The tweet URL is: ${tweetUrl}
+
+Since you cannot access the URL directly, please provide a translation note in ${langName} explaining that the user should read the embedded tweet above, and add a general note about Japanese Twitter culture.
+
+Actually, I need you to provide a placeholder translation. Please respond with:
+{"translation": "📖 See the tweet above — tap to expand and read the original Japanese content.", "context": "💡 This is a viral tweet from Japanese Twitter. Use the language selector above to get AI translations once the tweet loads."}`
+        }]
       })
     });
+
     const data = await response.json();
     const raw = data.content?.map(b => b.text || '').join('') || '{}';
     const parsed = JSON.parse(raw.replace(/```json|```/g, '').trim());
