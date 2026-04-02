@@ -19,12 +19,12 @@
   .logo-main{font-family:'Bebas Neue',sans-serif;font-size:clamp(16px,3.5vw,28px);letter-spacing:2px;color:#fff;line-height:1;white-space:nowrap;}
   .logo-jp{font-family:'Noto Sans JP',sans-serif;font-size:clamp(8px,1.8vw,13px);color:var(--red);font-weight:700;letter-spacing:1px;white-space:nowrap;}
   .header-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
-  .date-badge{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+  .date-badge{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
   .lang-switcher{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:5px 8px;}
   .lang-switcher select{background:transparent;border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;max-width:80px;}
   .lang-switcher select option{background:#1a1a1a;}
   .lang-icon{font-size:14px;line-height:1;}
-  @media(max-width:400px){.date-badge{display:none;}}
+  @media(max-width:500px){.date-badge{display:none;}}
 
   #translation-bar{background:linear-gradient(135deg,var(--gold) 0%,#b8943e 100%);padding:10px clamp(16px,5vw,60px);display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
   #translation-bar .bar-icon{font-size:18px;}
@@ -84,6 +84,16 @@
   .spinner{display:inline-block;width:11px;height:11px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0;}
   .spinner.dark{border-color:rgba(0,0,0,0.2);border-top-color:#3d2900;}
 
+  /* LIKE BUTTON */
+  .like-area{display:flex;align-items:center;gap:8px;padding:10px 18px;border-top:1px solid var(--border);background:#fff;}
+  .like-btn{background:none;border:1.5px solid var(--border);border-radius:20px;padding:4px 12px;font-size:13px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:4px;font-family:'DM Sans',sans-serif;color:var(--muted);}
+  .like-btn:hover{border-color:var(--red);background:#fff0f0;transform:scale(1.05);}
+  .like-btn.liked{border-color:var(--red);background:#fff0f0;color:var(--red);}
+  .like-btn.pop{animation:pop 0.3s ease;}
+  @keyframes pop{0%{transform:scale(1);}50%{transform:scale(1.3);}100%{transform:scale(1);}}
+  .like-flags{display:flex;flex-wrap:wrap;gap:4px;flex:1;}
+  .flag-count{font-size:12px;display:inline-flex;align-items:center;gap:2px;background:var(--cream);border-radius:12px;padding:2px 7px;cursor:default;}
+
   footer{border-top:1px solid var(--border);padding:clamp(24px,4vw,40px) clamp(16px,5vw,60px);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;position:relative;z-index:1;}
   .footer-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--ink);}
   footer p{font-size:12px;color:var(--muted);line-height:1.6;}
@@ -138,7 +148,7 @@
     <div class="hero-stats">
       <div class="stat"><span class="stat-num">8</span><span class="stat-label" id="stat1">Today's Picks</span></div>
       <div class="stat"><span class="stat-num">13</span><span class="stat-label" id="stat2">Languages</span></div>
-      <div class="stat"><span class="stat-num">∞</span><span class="stat-label" id="stat3">Good Vibes</span></div>
+      <div class="stat"><span class="stat-num" id="total-likes">0</span><span class="stat-label" id="stat3">Global Likes</span></div>
     </div>
   </div>
 </section>
@@ -167,6 +177,10 @@
         <div class="context-text" id="ctx-1"></div>
         <button class="translate-btn" id="btn-1" onclick="translateCard(this,1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button>
       </div>
+      <div class="like-area">
+        <button class="like-btn" id="like-1" onclick="handleLike(1)">❤️ Like</button>
+        <div class="like-flags" id="flags-1"></div>
+      </div>
     </div>
 
     <!-- 2: inariraion - Animals - 脱糞 -->
@@ -179,6 +193,10 @@
         <div class="translation-text" id="trans-2"><em style="color:var(--muted)">Tap below to translate.</em></div>
         <div class="context-text" id="ctx-2"></div>
         <button class="translate-btn" id="btn-2" onclick="translateCard(this,2)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button>
+      </div>
+      <div class="like-area">
+        <button class="like-btn" id="like-2" onclick="handleLike(2)">❤️ Like</button>
+        <div class="like-flags" id="flags-2"></div>
       </div>
     </div>
 
@@ -193,6 +211,10 @@
         <div class="context-text" id="ctx-3"></div>
         <button class="translate-btn" id="btn-3" onclick="translateCard(this,3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button>
       </div>
+      <div class="like-area">
+        <button class="like-btn" id="like-3" onclick="handleLike(3)">❤️ Like</button>
+        <div class="like-flags" id="flags-3"></div>
+      </div>
     </div>
 
     <!-- 4: akutagawa1122 - Funny - 黒人差別 -->
@@ -205,6 +227,10 @@
         <div class="translation-text" id="trans-4"><em style="color:var(--muted)">Tap below to translate.</em></div>
         <div class="context-text" id="ctx-4"></div>
         <button class="translate-btn" id="btn-4" onclick="translateCard(this,4)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button>
+      </div>
+      <div class="like-area">
+        <button class="like-btn" id="like-4" onclick="handleLike(4)">❤️ Like</button>
+        <div class="like-flags" id="flags-4"></div>
       </div>
     </div>
 
@@ -219,6 +245,10 @@
         <div class="context-text" id="ctx-5"></div>
         <button class="translate-btn" id="btn-5" onclick="translateCard(this,5)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button>
       </div>
+      <div class="like-area">
+        <button class="like-btn" id="like-5" onclick="handleLike(5)">❤️ Like</button>
+        <div class="like-flags" id="flags-5"></div>
+      </div>
     </div>
 
     <!-- 6: hinekurebow - Funny - 金玉ドアストッパー -->
@@ -231,6 +261,10 @@
         <div class="translation-text" id="trans-6"><em style="color:var(--muted)">Tap below to translate.</em></div>
         <div class="context-text" id="ctx-6"></div>
         <button class="translate-btn" id="btn-6" onclick="translateCard(this,6)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button>
+      </div>
+      <div class="like-area">
+        <button class="like-btn" id="like-6" onclick="handleLike(6)">❤️ Like</button>
+        <div class="like-flags" id="flags-6"></div>
       </div>
     </div>
 
@@ -245,6 +279,10 @@
         <div class="context-text" id="ctx-7"></div>
         <button class="translate-btn" id="btn-7" onclick="translateCard(this,7)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button>
       </div>
+      <div class="like-area">
+        <button class="like-btn" id="like-7" onclick="handleLike(7)">❤️ Like</button>
+        <div class="like-flags" id="flags-7"></div>
+      </div>
     </div>
 
     <!-- 8: muni_gurume - Food - 東京餃子 -->
@@ -257,6 +295,10 @@
         <div class="translation-text" id="trans-8"><em style="color:var(--muted)">Tap below to translate.</em></div>
         <div class="context-text" id="ctx-8"></div>
         <button class="translate-btn" id="btn-8" onclick="translateCard(this,8)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6M4 14l6-6 2-2M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>Translate Tweet</button>
+      </div>
+      <div class="like-area">
+        <button class="like-btn" id="like-8" onclick="handleLike(8)">❤️ Like</button>
+        <div class="like-flags" id="flags-8"></div>
       </div>
     </div>
 
@@ -272,6 +314,68 @@
 
 <script>
 const TOTAL = 8;
+
+// 国旗マップ
+const langFlags = {
+  en:'🇺🇸', ja:'🇯🇵', es:'🇪🇸', fr:'🇫🇷', de:'🇩🇪',
+  pt:'🇧🇷', ko:'🇰🇷', zh:'🇨🇳', ar:'🇸🇦', hi:'🇮🇳',
+  id:'🇮🇩', th:'🇹🇭', ru:'🇷🇺', auto:'🌐'
+};
+
+// いいねデータ（セッション中のみ保持）
+const likesData = {};
+for (let i = 1; i <= TOTAL; i++) likesData[i] = {};
+const userLiked = {};
+
+function getCurrentFlag() {
+  const lang = document.getElementById('lang-select').value;
+  return langFlags[lang] || '🌐';
+}
+
+function handleLike(id) {
+  const btn = document.getElementById('like-'+id);
+  const flag = getCurrentFlag();
+  const lang = document.getElementById('lang-select').value || 'auto';
+
+  if (userLiked[id]) {
+    // unlike
+    userLiked[id] = false;
+    btn.classList.remove('liked');
+    btn.innerHTML = '❤️ Like';
+    if (likesData[id][flag]) {
+      likesData[id][flag]--;
+      if (likesData[id][flag] <= 0) delete likesData[id][flag];
+    }
+  } else {
+    // like
+    userLiked[id] = true;
+    btn.classList.add('liked');
+    btn.classList.add('pop');
+    btn.innerHTML = '❤️ Liked!';
+    setTimeout(() => btn.classList.remove('pop'), 300);
+    likesData[id][flag] = (likesData[id][flag] || 0) + 1;
+  }
+
+  renderFlags(id);
+  updateTotalLikes();
+}
+
+function renderFlags(id) {
+  const container = document.getElementById('flags-'+id);
+  const data = likesData[id];
+  const sorted = Object.entries(data).sort((a,b) => b[1]-a[1]);
+  container.innerHTML = sorted.map(([flag, count]) =>
+    `<span class="flag-count">${flag} ${count}</span>`
+  ).join('');
+}
+
+function updateTotalLikes() {
+  let total = 0;
+  for (let i = 1; i <= TOTAL; i++) {
+    total += Object.values(likesData[i]).reduce((a,b) => a+b, 0);
+  }
+  document.getElementById('total-likes').textContent = total;
+}
 
 const tweetTexts = {
   1: '可愛い',
@@ -337,15 +441,15 @@ async function translateAll() {
 }
 
 const uiT = {
-  en:{ title:"JAPAN'S<br><span>FUNNIEST</span><br>TWEETS —<br>FOR THE WORLD", sub:"Hand-picked viral tweets from Japanese Twitter — translated and explained for the world.", s1:"Today's Picks", s2:"Languages", s3:"Good Vibes", bar:"AI-powered translations — understand every tweet in your language", btn:"Translate All Tweets", sel:"Today's Selection", tBtn:"Translate Tweet" },
-  ja:{ title:"日本の<br><span>バズった</span><br>ツイート —<br>世界へ", sub:"毎日厳選した日本のバズりツイートを世界に届けます。", s1:"今日のピック", s2:"言語", s3:"良い雰囲気", bar:"AI翻訳機能 — あなたの言語でツイートを理解しよう", btn:"全部翻訳する", sel:"今日の厳選", tBtn:"翻訳する" },
-  es:{ title:"LOS TWEETS<br><span>MÁS GRACIOSOS</span><br>DE JAPÓN —<br>PARA EL MUNDO", sub:"Tweets virales de Twitter japonés, traducidos y explicados.", s1:"Selección de hoy", s2:"Idiomas", s3:"Buenas vibras", bar:"Traducciones IA — entiende cada tweet en tu idioma", btn:"Traducir todos", sel:"Selección de hoy", tBtn:"Traducir Tweet" },
-  fr:{ title:"LES TWEETS<br><span>LES PLUS DRÔLES</span><br>DU JAPON —<br>POUR LE MONDE", sub:"Tweets viraux japonais traduits et expliqués pour le monde.", s1:"Sélections du jour", s2:"Langues", s3:"Bonne ambiance", bar:"Traductions IA — comprenez chaque tweet dans votre langue", btn:"Tout traduire", sel:"Sélection du jour", tBtn:"Traduire" },
-  de:{ title:"JAPANS<br><span>LUSTIGSTE</span><br>TWEETS —<br>FÜR DIE WELT", sub:"Handverlesene virale Tweets aus Japan.", s1:"Heutige Picks", s2:"Sprachen", s3:"Gute Vibes", bar:"KI-Übersetzungen — jeden Tweet in deiner Sprache verstehen", btn:"Alle übersetzen", sel:"Heutige Auswahl", tBtn:"Übersetzen" },
-  ko:{ title:"일본의<br><span>가장 웃긴</span><br>트윗 —<br>세계를 위해", sub:"매일 엄선한 일본 트위터의 바이럴 트윗.", s1:"오늘의 픽", s2:"언어", s3:"좋은 바이브", bar:"AI 번역 — 모든 트윗을 당신의 언어로", btn:"전부 번역하기", sel:"오늘의 선택", tBtn:"번역하기" },
-  zh:{ title:"日本<br><span>最搞笑的</span><br>推文 —<br>为全世界", sub:"每天精选日本推特上的病毒式推文。", s1:"今日精选", s2:"语言", s3:"好心情", bar:"AI翻译 — 用你的语言理解每条推文", btn:"全部翻译", sel:"今日精选", tBtn:"翻译" },
-  pt:{ title:"OS TWEETS<br><span>MAIS ENGRAÇADOS</span><br>DO JAPÃO —<br>PARA O MUNDO", sub:"Tweets virais japoneses traduzidos e explicados.", s1:"Seleções de hoje", s2:"Idiomas", s3:"Boas vibrações", bar:"Traduções IA — entenda cada tweet no seu idioma", btn:"Traduzir tudo", sel:"Seleção de hoje", tBtn:"Traduzir" },
-  ru:{ title:"САМЫЕ<br><span>СМЕШНЫЕ</span><br>ТВИТЫ ЯПОНИИ —<br>ДЛЯ МИРА", sub:"Отборные вирусные твиты из японского Twitter.", s1:"Пики дня", s2:"Языки", s3:"Хорошие вибрации", bar:"ИИ-переводы — понимай каждый твит на своём языке", btn:"Перевести всё", sel:"Выбор дня", tBtn:"Перевести" }
+  en:{ title:"JAPAN'S<br><span>FUNNIEST</span><br>TWEETS —<br>FOR THE WORLD", sub:"Hand-picked viral tweets from Japanese Twitter — translated and explained for the world.", s1:"Today's Picks", s2:"Languages", s3:"Global Likes", bar:"AI-powered translations — understand every tweet in your language", btn:"Translate All Tweets", sel:"Today's Selection", tBtn:"Translate Tweet" },
+  ja:{ title:"日本の<br><span>バズった</span><br>ツイート —<br>世界へ", sub:"毎日厳選した日本のバズりツイートを世界に届けます。", s1:"今日のピック", s2:"言語", s3:"世界のいいね", bar:"AI翻訳機能 — あなたの言語でツイートを理解しよう", btn:"全部翻訳する", sel:"今日の厳選", tBtn:"翻訳する" },
+  es:{ title:"LOS TWEETS<br><span>MÁS GRACIOSOS</span><br>DE JAPÓN —<br>PARA EL MUNDO", sub:"Tweets virales de Twitter japonés, traducidos y explicados.", s1:"Selección de hoy", s2:"Idiomas", s3:"Likes globales", bar:"Traducciones IA — entiende cada tweet en tu idioma", btn:"Traducir todos", sel:"Selección de hoy", tBtn:"Traducir Tweet" },
+  fr:{ title:"LES TWEETS<br><span>LES PLUS DRÔLES</span><br>DU JAPON —<br>POUR LE MONDE", sub:"Tweets viraux japonais traduits et expliqués pour le monde.", s1:"Sélections du jour", s2:"Langues", s3:"Likes mondiaux", bar:"Traductions IA — comprenez chaque tweet dans votre langue", btn:"Tout traduire", sel:"Sélection du jour", tBtn:"Traduire" },
+  de:{ title:"JAPANS<br><span>LUSTIGSTE</span><br>TWEETS —<br>FÜR DIE WELT", sub:"Handverlesene virale Tweets aus Japan.", s1:"Heutige Picks", s2:"Sprachen", s3:"Globale Likes", bar:"KI-Übersetzungen — jeden Tweet in deiner Sprache verstehen", btn:"Alle übersetzen", sel:"Heutige Auswahl", tBtn:"Übersetzen" },
+  ko:{ title:"일본의<br><span>가장 웃긴</span><br>트윗 —<br>세계를 위해", sub:"매일 엄선한 일본 트위터의 바이럴 트윗.", s1:"오늘의 픽", s2:"언어", s3:"글로벌 좋아요", bar:"AI 번역 — 모든 트윗을 당신의 언어로", btn:"전부 번역하기", sel:"오늘의 선택", tBtn:"번역하기" },
+  zh:{ title:"日本<br><span>最搞笑的</span><br>推文 —<br>为全世界", sub:"每天精选日本推特上的病毒式推文。", s1:"今日精选", s2:"语言", s3:"全球点赞", bar:"AI翻译 — 用你的语言理解每条推文", btn:"全部翻译", sel:"今日精选", tBtn:"翻译" },
+  pt:{ title:"OS TWEETS<br><span>MAIS ENGRAÇADOS</span><br>DO JAPÃO —<br>PARA O MUNDO", sub:"Tweets virais japoneses traduzidos e explicados.", s1:"Seleções de hoje", s2:"Idiomas", s3:"Likes globais", bar:"Traduções IA — entenda cada tweet no seu idioma", btn:"Traduzir tudo", sel:"Seleção de hoje", tBtn:"Traduzir" },
+  ru:{ title:"САМЫЕ<br><span>СМЕШНЫЕ</span><br>ТВИТЫ ЯПОНИИ —<br>ДЛЯ МИРА", sub:"Отборные вирусные твиты из японского Twitter.", s1:"Пики дня", s2:"Языки", s3:"Глобальные лайки", bar:"ИИ-переводы — понимай каждый твит на своём языке", btn:"Перевести всё", sel:"Выбор дня", tBtn:"Перевести" }
 };
 
 function onLangChange() {
