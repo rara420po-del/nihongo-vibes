@@ -1,46 +1,3 @@
-// api/likes.js — いいね数をJSONBinに永続保存
-
-const BIN_ID_KEY = 'JSONBIN_BIN_ID'; // Vercel環境変数に保存するBin ID
-
-async function getBinId() {
-  return process.env.JSONBIN_BIN_ID || null;
-}
-
-async function initBin(apiKey) {
-  // 初回：新しいBinを作成
-  const res = await fetch('https://api.jsonbin.io/v3/b', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Master-Key': apiKey,
-      'X-Bin-Name': 'nihongo-vibes-likes',
-      'X-Bin-Private': 'false'
-    },
-    body: JSON.stringify({ likes: {} })
-  });
-  const data = await res.json();
-  return data.metadata?.id || null;
-}
-
-async function readLikes(apiKey, binId) {
-  const res = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
-    headers: { 'X-Master-Key': apiKey }
-  });
-  const data = await res.json();
-  return data.record?.likes || {};
-}
-
-async function writeLikes(apiKey, binId, likes) {
-  await fetch(`https://api.jsonbin.io/v3/b/${binId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Master-Key': apiKey
-    },
-    body: JSON.stringify({ likes })
-  });
-}
-
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -48,35 +5,37 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const apiKey = process.env.JSONBIN_API_KEY;
-  if (!apiKey) return res.status(500).json({ error: 'No API key' });
+  const binId  = process.env.JSONBIN_BIN_ID;
+  if (!apiKey || !binId) return res.status(500).json({ error: 'Missing config' });
 
-  let binId = await getBinId();
-
-  // GET: いいね数を取得
+  // GET: 全データ取得
   if (req.method === 'GET') {
     try {
-      if (!binId) return res.status(200).json({ likes: {} });
-      const likes = await readLikes(apiKey, binId);
-      return res.status(200).json({ likes });
+      const r = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
+        headers: { 'X-Master-Key': apiKey }
+      });
+      const data = await r.json();
+      return res.status(200).json({ likes: data.record?.likes || {} });
     } catch(e) {
       return res.status(200).json({ likes: {} });
     }
   }
 
-  // POST: いいねを更新
+  // POST: いいね更新
   if (req.method === 'POST') {
-    const { cardId, flag, action } = req.body; // action: 'like' or 'unlike'
-    if (!cardId || !flag) return res.status(400).json({ error: 'Missing params' });
+    const { cardId, flag, action } = req.body;
+    // cardId は "1_goat" や "3_ohno" の形式
+    if (!cardId || !flag || !action) return res.status(400).json({ error: 'Missing params' });
 
     try {
-      // Binがなければ作成
-      if (!binId) {
-        binId = await initBin(apiKey);
-        if (!binId) return res.status(500).json({ error: 'Could not create bin' });
-        // BIN IDをレスポンスで返す（フロントで環境変数に設定するよう促す）
-      }
+      // 現在のデータ取得
+      const r = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
+        headers: { 'X-Master-Key': apiKey }
+      });
+      const data = await r.json();
+      const likes = data.record?.likes || {};
 
-      const likes = await readLikes(apiKey, binId);
+      // キー形式: "1_goat_🇯🇵" など
       const key = `${cardId}_${flag}`;
 
       if (action === 'like') {
@@ -86,11 +45,20 @@ export default async function handler(req, res) {
         if (likes[key] === 0) delete likes[key];
       }
 
-      await writeLikes(apiKey, binId, likes);
-      return res.status(200).json({ likes, binId });
+      // 保存
+      await fetch(`https://api.jsonbin.io/v3/b/${binId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': apiKey
+        },
+        body: JSON.stringify({ likes })
+      });
+
+      return res.status(200).json({ likes });
     } catch(e) {
       console.error(e);
-      return res.status(500).json({ error: 'Failed to update likes' });
+      return res.status(500).json({ error: 'Failed' });
     }
   }
 
