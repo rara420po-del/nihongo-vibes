@@ -536,21 +536,19 @@ function renderFlags(id) {
 }
 function spawnGoats(id) {
   for (let i = 0; i < 50; i++) {
-    setTimeout(() => {
-      const el = document.createElement('div');
-      el.className = 'goat-particle';
-      el.textContent = '🐐';
-      el.style.top = (5 + Math.random() * 85) + 'vh';
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 2000);
-    }, i * 150);
+    const el = document.createElement('div');
+    el.textContent = '🐐';
+    el.style.cssText = `position:fixed;font-size:36px;pointer-events:none;z-index:9999;top:${5+Math.random()*85}vh;left:-60px;transition:left ${1+Math.random()*0.5}s linear;`;
+    document.body.appendChild(el);
+    setTimeout(() => { el.style.left = '110vw'; }, 50 + i * 80);
+    setTimeout(() => el.remove(), 3000 + i * 80);
   }
 }
 
 function spawnAxes(id) {
   const btn = document.getElementById(`ohno-${id}`);
   const rect = btn.getBoundingClientRect();
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 30; i++) {
     setTimeout(() => {
       const el = document.createElement('div');
       el.className = 'axe-particle';
