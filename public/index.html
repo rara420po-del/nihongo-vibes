@@ -630,7 +630,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric', year:'numeric' }).toUpperCase();
   const nav = (navigator.language || 'en').toLowerCase().split('-')[0];
   const supported = ['en','ja','es','fr','de','pt','ko','zh','ar','hi','id','th','ru'];
-  if (supported.includes(nav) && nav !== 'en') { document.getElementById('lang-select').value = nav; onLangChange(); }
+  if (supported.includes(nav) && nav !== 'en' && nav !== 'ja') { document.getElementById('lang-select').value = nav; onLangChange(); }
   loadLikes();
 });
 </script>
