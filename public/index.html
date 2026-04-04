@@ -118,6 +118,13 @@
   .reaction-btn.ohno-active{border-color:#c62828;background:#fff0f0;color:#c62828;}
   .reaction-btn.pop{animation:pop 0.3s ease;}
   @keyframes pop{0%{transform:scale(1);}50%{transform:scale(1.25);}100%{transform:scale(1);}}
+     /* GOAT アニメーション */
+  .goat-particle{position:fixed;font-size:28px;pointer-events:none;z-index:9999;animation:goatRun 1.2s ease-out forwards;}
+  @keyframes goatRun{0%{transform:translateX(-80px) scaleX(-1);opacity:1;}100%{transform:translateX(120vw) scaleX(-1);opacity:0;}}
+
+  /* 斧アニメーション */
+  .axe-particle{position:fixed;font-size:36px;pointer-events:none;z-index:9999;animation:axeFall 0.8s ease-in forwards;}
+  @keyframes axeFall{0%{transform:translateY(-80px) rotate(-45deg);opacity:1;}70%{transform:translateY(0px) rotate(20deg);opacity:1;}100%{transform:translateY(20px) rotate(20deg);opacity:0;}}
   .reaction-flags{display:flex;flex-wrap:wrap;gap:4px;}
   .flag-count{font-size:11px;display:inline-flex;align-items:center;gap:2px;border-radius:12px;padding:2px 7px;cursor:default;}
   .flag-count.goat-flag{background:#e8f5e9;color:#2e7d32;}
@@ -453,6 +460,9 @@ async function loadLikes() {
 }
 
 async function handleReaction(id, type) {
+　// エフェクト発動
+  if (type === 'goat') spawnGoats(id);
+  else spawnAxes(id);
   const flag = getCurrentFlag();
   const goatBtn = document.getElementById(`goat-${id}`);
   const ohnoBtn = document.getElementById(`ohno-${id}`);
@@ -524,7 +534,38 @@ function renderFlags(id) {
     `<span class="flag-count ${type}-flag">${type === 'goat' ? '🐐' : '🪓'} ${flag} ${count}</span>`
   ).join('');
 }
+function spawnGoats(id) {
+  const btn = document.getElementById(`goat-${id}`);
+  const rect = btn.getBoundingClientRect();
+  for (let i = 0; i < 6; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'goat-particle';
+      el.textContent = '🐐';
+      el.style.left = '-80px';
+      el.style.top = (rect.top + Math.random() * 60 - 30) + 'px';
+      el.style.animationDelay = (i * 0.15) + 's';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1800);
+    }, i * 100);
+  }
+}
 
+function spawnAxes(id) {
+  const btn = document.getElementById(`ohno-${id}`);
+  const rect = btn.getBoundingClientRect();
+  for (let i = 0; i < 4; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'axe-particle';
+      el.textContent = '🪓';
+      el.style.left = (rect.left + Math.random() * 80 - 20) + 'px';
+      el.style.top = '-80px';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1000);
+    }, i * 120);
+  }
+}
 function updateTotals() {
   let goat = 0, ohno = 0;
   Object.entries(serverLikes).forEach(([k, v]) => {
