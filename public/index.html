@@ -538,7 +538,7 @@ function spawnGoats(id) {
   for (let i = 0; i < 50; i++) {
     const el = document.createElement('div');
     el.textContent = '🐐';
-    el.style.cssText = `position:fixed;font-size:144px;pointer-events:none;z-index:9999;top:${5+Math.random()*85}vh;left:-60px;transition:left ${1+Math.random()*0.5}s linear;`;
+    el.style.cssText = `position:fixed;font-size:252px;pointer-events:none;z-index:9999;top:${5+Math.random()*85}vh;left:-200px;transition:left ${1+Math.random()*0.5}s linear;transform:scaleX(1);`;
     document.body.appendChild(el);
     setTimeout(() => { el.style.left = '110vw'; }, 50 + i * 80);
     setTimeout(() => el.remove(), 3000 + i * 80);
@@ -553,7 +553,7 @@ function spawnAxes(id) {
       const el = document.createElement('div');
       el.className = 'axe-particle';
       el.textContent = '🪓';
-    　el.style.fontSize = '480px';
+    　el.style.fontSize = '240px';
       el.style.left = (rect.left + Math.random() * 80 - 20) + 'px';
       el.style.top = '-80px';
       document.body.appendChild(el);
