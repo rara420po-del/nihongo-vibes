@@ -550,7 +550,7 @@ function spawnGoats(id) {
 function spawnAxes(id) {
   const btn = document.getElementById(`ohno-${id}`);
   const rect = btn.getBoundingClientRect();
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 100; i++) {
     setTimeout(() => {
       const el = document.createElement('div');
       el.className = 'axe-particle';
