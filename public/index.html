@@ -123,8 +123,8 @@
   @keyframes goatRun{0%{left:-80px;opacity:1;}100%{left:110vw;opacity:1;}}
      
   /* 斧アニメーション */
-  .axe-particle{position:fixed;font-size:clamp(40px,6vw,56px);pointer-events:none;z-index:9999;animation:axeFall 1s cubic-bezier(0.25,0.46,0.45,0.94) forwards;}
-  @keyframes axeFall{0%{transform:translateY(-120px) rotate(-60deg);opacity:1;}60%{transform:translateY(calc(100vh - 200px)) rotate(30deg);opacity:1;}80%{transform:translateY(calc(100vh - 180px)) rotate(-10deg);opacity:1;}100%{transform:translateY(calc(100vh - 190px)) rotate(10deg);opacity:0;}}
+ .axe-particle{position:fixed;font-size:120px;pointer-events:none;z-index:9999;left:50%;transform:translateX(-50%) rotate(-45deg);animation:axeFall 1.2s ease-in forwards;}
+  @keyframes axeFall{0%{top:-150px;transform:translateX(-50%) rotate(-45deg);opacity:1;}70%{top:40vh;transform:translateX(-50%) rotate(15deg);opacity:1;}90%{top:38vh;transform:translateX(-50%) rotate(-5deg);opacity:1;}100%{top:40vh;transform:translateX(-50%) rotate(10deg);opacity:0;}}
   .reaction-flags{display:flex;flex-wrap:wrap;gap:4px;}
   .flag-count{font-size:11px;display:inline-flex;align-items:center;gap:2px;border-radius:12px;padding:2px 7px;cursor:default;}
   .flag-count.goat-flag{background:#e8f5e9;color:#2e7d32;}
@@ -535,19 +535,16 @@ function renderFlags(id) {
   ).join('');
 }
 function spawnGoats(id) {
-  const btn = document.getElementById(`goat-${id}`);
-  const rect = btn.getBoundingClientRect();
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 8; i++) {
     setTimeout(() => {
       const el = document.createElement('div');
       el.className = 'goat-particle';
       el.textContent = '🐐';
+      el.style.top = (20 + Math.random() * 60) + 'vh';
       el.style.left = '-80px';
-      el.style.top = (rect.top + Math.random() * 60 - 30) + 'px';
-      el.style.animationDelay = (i * 0.15) + 's';
       document.body.appendChild(el);
-      setTimeout(() => el.remove(), 1800);
-    }, i * 100);
+      setTimeout(() => el.remove(), 2000);
+    }, i * 150);
   }
 }
 
