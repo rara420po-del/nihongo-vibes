@@ -65,18 +65,20 @@
   @media(max-width:700px){.top-strip{font-size:10px;padding:6px 14px;}}
 
   /* ───── Header (sticky nav) ───── */
-  header{position:sticky;top:0;z-index:100;background:var(--sumi);border-bottom:3px solid var(--shu);padding:0 clamp(16px,3vw,48px);display:flex;align-items:center;justify-content:space-between;height:62px;gap:10px;}
-  .logo{display:flex;align-items:baseline;gap:10px;min-width:0;}
+  header{position:sticky;top:0;z-index:100;background:var(--sumi);border-bottom:3px solid var(--shu);padding:10px clamp(16px,3vw,48px);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;min-height:62px;}
+  .logo{display:flex;align-items:baseline;gap:10px;min-width:0;flex-wrap:wrap;}
   .logo-main{font-family:var(--serif);font-weight:900;font-size:clamp(18px,3.5vw,26px);letter-spacing:-0.5px;color:var(--kinari);line-height:1;white-space:nowrap;}
   .logo-main .dot{color:var(--shu);}
   .logo-jp{font-family:var(--serif);font-size:clamp(10px,1.8vw,14px);color:var(--kincha);font-weight:700;letter-spacing:3px;white-space:nowrap;}
-  .header-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+  .header-right{display:flex;align-items:center;gap:10px;flex-shrink:0;flex-wrap:wrap;}
   .date-badge{font-family:var(--en-serif);font-style:italic;font-size:11px;letter-spacing:1px;color:rgba(243,237,224,0.55);white-space:nowrap;}
-  @media(max-width:600px){.date-badge{display:none;}}
+  @media(max-width:820px){.date-badge{display:none;}}
+  @media(max-width:520px){.logo-jp{display:none;}}
 
   .switcher-wrap{display:flex;align-items:center;gap:4px;background:rgba(243,237,224,0.08);border:1px solid rgba(243,237,224,0.18);padding:5px 10px;}
-  .switcher-wrap select{background:transparent;border:none;color:var(--kinari);font-family:var(--en-serif);font-size:13px;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;max-width:90px;font-style:italic;}
-  .switcher-wrap select option{background:#1a1510;font-style:normal;}
+  .switcher-wrap select{background:#1a1510;border:none;color:var(--kinari);font-family:var(--en-serif);font-size:13px;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;max-width:90px;font-style:italic;}
+  .switcher-wrap select option{background:#1a1510;color:var(--kinari);font-style:normal;}
+  .switcher-wrap select optgroup{background:#1a1510;color:var(--kincha);font-style:normal;}
   .switcher-icon{font-size:14px;line-height:1;}
 
   /* ───── Hero (zine masthead) ───── */
@@ -564,7 +566,7 @@
   <div class="footer-top">
     <div>
       <div class="footer-logo">日本語バイブス<span class="dot">.</span></div>
-      <div class="footer-tagline">Updated daily · curated by humans · translated by Claude AI</div>
+      <div class="footer-tagline">by ISLA</div>
     </div>
     <div class="footer-links">
       <a href="#">About</a>
